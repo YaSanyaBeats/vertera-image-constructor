@@ -1,5 +1,5 @@
 .entity-swiper {
-    max-height: calc(100vh - 170px);
+    max-height: calc(100vh - 180px);
 }
 
 .entity-image {
@@ -15,4 +15,12 @@
 
 .entity-image_contain {
     object-fit: contain;
+}
+
+.right-sidebar {
+    height: calc(100vh - 120px);
+}
+
+.tool-tab {
+    min-width: 50px !important;
 }

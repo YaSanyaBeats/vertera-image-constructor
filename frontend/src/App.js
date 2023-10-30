@@ -33,7 +33,7 @@ function App() {
                         <Login/>
                     </Stack>
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={3}>
                     <Stack>
                         <ToolBar/>
                         <Entities/>
@@ -43,7 +43,10 @@ function App() {
                     <Canvas/>
                 </Grid>
                 <Grid item xs={2}>
-                    <Stack>
+                    <Stack
+                        className='right-sidebar'
+                        justifyContent='space-between'
+                    >
                         <EntityProps/>
                         <Export/>
                     </Stack>
