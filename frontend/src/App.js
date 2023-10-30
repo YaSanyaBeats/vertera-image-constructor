@@ -22,7 +22,7 @@ function App() {
     return (
         <ThemeProvider theme={darkTheme}>
             <CssBaseline />
-            <Grid container spacing={2} p={4}>
+            <Grid container spacing={2} p={4} className='app'>
                 <Grid item xs={12} p={2}>
                     <Stack 
                         direction="row"
@@ -33,13 +33,13 @@ function App() {
                         <Login/>
                     </Stack>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={2}>
                     <Stack>
                         <ToolBar/>
                         <Entities/>
                     </Stack>
                 </Grid>
-                <Grid item xs>
+                <Grid item xs={8}>
                     <Canvas/>
                 </Grid>
                 <Grid item xs={2}>
