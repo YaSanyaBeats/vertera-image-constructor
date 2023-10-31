@@ -29,3 +29,15 @@
 .tool-tab {
     min-width: 50px !important;
 }
+
+.main-canvas {
+    height: 100%;
+}
+
+.main-canvas .konvajs-content {
+    height: 100% !important;
+}
+
+.main-canvas .konvajs-content canvas {
+    height: 100% !important;
+}
