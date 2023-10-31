@@ -39,7 +39,7 @@ function App() {
                         <Entities/>
                     </Stack>
                 </Grid>
-                <Grid item xs={8}>
+                <Grid item xs={8} justifyContent='center'>
                     <Canvas/>
                 </Grid>
                 <Grid item xs={2}>
