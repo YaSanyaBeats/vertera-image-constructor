@@ -7,26 +7,27 @@ import 'swiper/css/scrollbar';
 
 import Box from '@mui/material/Box';
 import Entity from './Entity';
-import { Grid } from '@mui/material';
+import Masonry from '@mui/lab/Masonry';
+
 import { useEffect, useState } from 'react';
 
-function Entities() {
+function Entities({tool}) {
     const [backgrounds, setBackgrounds] = useState([]);
-
+    const [linkPath, setLinkPath] = useState();
 
     useEffect(() => {
-        console.log('ajax');
-        fetch('http://localhost:8000/getBG/')
+        fetch('http://localhost:8000/getEntity/?all=true&entityTypeName=' + tool)
         .then(res => res.json())
         .then(
             (result) => {
-                setBackgrounds(result)
+                setBackgrounds(result);
+                setLinkPath('http://localhost:8000/getEntity/?all=false&entityTypeName=' + tool + '&entityName=');
             },
             (error) => {
                 console.log("Backgrounds not loaded");
             }
         )
-    }, [])
+    }, [tool])
 
 
     return (
@@ -41,14 +42,11 @@ function Entities() {
                 className="entity-swiper"
             >
                 <SwiperSlide>
-                    <Grid container spacing={2}>
-                        
-                        {backgrounds.map((bg) => (
-                            <Grid item xs={6}>
-                                <Entity src={bg}/>
-                            </Grid>
+                    <Masonry columns={2} spacing={2}>
+                        {backgrounds.map((bg, index) => (
+                            <Entity key={index} src={linkPath + bg}/>
                         ))}
-                    </Grid>
+                    </Masonry>
                 </SwiperSlide>
             </Swiper>
         </Box>

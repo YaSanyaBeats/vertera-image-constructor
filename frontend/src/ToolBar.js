@@ -21,7 +21,8 @@ function samePageLinkNavigation(event) {
     return true;
 }
 
-function ToolBar() {
+function ToolBar({changeTool}) {
+    const toolNames = ['backgrounds', 'images', 'text'];
     const [tool, setTool] = useState(0);
 
     const handleChange = (event, newValue) => {
@@ -31,8 +32,9 @@ function ToolBar() {
           (event.type === 'click' && samePageLinkNavigation(event))
         ) {
             setTool(newValue);
+            changeTool(toolNames[newValue]);
         }
-      };
+    };
 
     return (
         <Stack

@@ -64,7 +64,10 @@ module.exports = function (app) {
             try {
                 let path = FileHelpers.getEntity(entityTypeName, entityName);
                 console.log(__dirname.replace('routes', '') + path);
-                response.sendFile(__dirname.replace('routes', '') + path);
+                setTimeout(() => {
+                    response.sendFile(__dirname.replace('routes', '') + path);
+                }, 2000)
+                
                 return;
             }
             catch {

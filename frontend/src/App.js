@@ -12,7 +12,7 @@ import EntityProps from './EntityProps.js';
 import Export from './Export.js';
 import Login from './Login';
 
-import {useRef, useEffect, useState} from 'react';
+import {useState} from 'react';
 
 const darkTheme = createTheme({
     palette: {
@@ -22,7 +22,7 @@ const darkTheme = createTheme({
 
 
 function App() {
-    
+    const [currentTool, setCurrentTool] = useState('backgrounds');
 
     return (
         <ThemeProvider theme={darkTheme}>
@@ -40,8 +40,8 @@ function App() {
                 </Grid>
                 <Grid item xs={2}>
                     <Stack>
-                        <ToolBar/>
-                        <Entities/>
+                        <ToolBar changeTool={setCurrentTool}/>
+                        <Entities tool={currentTool}/>
                     </Stack>
                 </Grid>
                 <Grid item xs={8} justifyContent='center'>
