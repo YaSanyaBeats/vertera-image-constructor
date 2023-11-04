@@ -11,7 +11,7 @@ import Masonry from '@mui/lab/Masonry';
 
 import { useEffect, useState } from 'react';
 
-function Entities({tool}) {
+function Entities({tool, changeEntity}) {
     const [backgrounds, setBackgrounds] = useState([]);
     const [linkPath, setLinkPath] = useState();
 
@@ -29,7 +29,6 @@ function Entities({tool}) {
         )
     }, [tool])
 
-
     return (
         <Box mt={2}>
             <Swiper
@@ -44,7 +43,7 @@ function Entities({tool}) {
                 <SwiperSlide>
                     <Masonry columns={2} spacing={2}>
                         {backgrounds.map((bg, index) => (
-                            <Entity key={index} src={linkPath + bg}/>
+                            <Entity key={index} src={linkPath + bg} onClick={changeEntity}/>
                         ))}
                     </Masonry>
                 </SwiperSlide>

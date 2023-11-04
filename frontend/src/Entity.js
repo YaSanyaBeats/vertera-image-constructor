@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import Skeleton from '@mui/material/Skeleton';
 import { useEffect, useState } from 'react';
 
-function Entity({src}) {
+function Entity({src, onClick}) {
     const [loading, setLoading] = useState(true);
     const [url, setUrl] = useState('');
 
@@ -21,7 +21,7 @@ function Entity({src}) {
             {loading ? (
                 <Skeleton variant="rounded" height={100} />
             ) : (
-                <img src={url} alt="Entity Preview" className='entity-image entity-image_cover'/>
+                <img src={url} alt="Entity Preview" onClick={onClick} className='entity-image entity-image_cover'/>
             )}
         </Box>
     );

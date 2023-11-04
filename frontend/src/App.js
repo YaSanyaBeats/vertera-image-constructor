@@ -23,6 +23,13 @@ const darkTheme = createTheme({
 
 function App() {
     const [currentTool, setCurrentTool] = useState('backgrounds');
+    const [background, setBackground] = useState();
+
+    const handleChangeEntity = (event) => {
+        if(currentTool === 'backgrounds') {
+            setBackground(event.target.src);
+        }
+    } 
 
     return (
         <ThemeProvider theme={darkTheme}>
@@ -41,11 +48,11 @@ function App() {
                 <Grid item xs={2}>
                     <Stack>
                         <ToolBar changeTool={setCurrentTool}/>
-                        <Entities tool={currentTool}/>
+                        <Entities tool={currentTool} changeEntity={handleChangeEntity}/>
                     </Stack>
                 </Grid>
                 <Grid item xs={8} justifyContent='center'>
-                    <Canvas/>
+                    <Canvas background={background}/>
                 </Grid>
                 <Grid item xs={2}>
                     <Stack

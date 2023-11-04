@@ -3,6 +3,7 @@ import {useRef, useState, useEffect} from 'react';
 import { Stage, Layer } from 'react-konva';
 import Box from '@mui/material/Box';
 import CanvasEntity from './canvas/CanvasEntity.js'
+import CanvasBackground from './canvas/CanvasBackground.js'
 
 const initialRectangles = [
     {
@@ -21,7 +22,7 @@ const initialRectangles = [
     },
 ];
 
-const Canvas = () => {
+const Canvas = ({background}) => {
     const [rectangles, setRectangles] = React.useState(initialRectangles);
     const [selectedId, selectShape] = React.useState(null);
 
@@ -32,8 +33,9 @@ const Canvas = () => {
     })
 
     const checkDeselect = (e) => {
+        console.log(e.target);
         // deselect when clicked on empty area
-        const clickedOnEmpty = e.target === e.target.getStage();
+        const clickedOnEmpty = e.target === e.target.getStage() || e.target.attrs.id === 'background';
         if (clickedOnEmpty) {
             selectShape(null);
         }
@@ -61,7 +63,7 @@ const Canvas = () => {
     //End resize canvas
 
     return (
-        <Box bgcolor={'#023522'} borderRadius={2} overflow='hidden' ref={boxBounds} height={'100%'}>
+        <Box bgcolor={'#1E252A'} borderRadius={2} overflow='hidden' ref={boxBounds} height={'100%'}>
             <Stage
                 className='main-canvas'
                 width={dimensions.width}
@@ -69,6 +71,12 @@ const Canvas = () => {
                 onMouseDown={checkDeselect}
                 onTouchStart={checkDeselect}
             >
+                
+                {background && (
+                    <Layer>
+                        <CanvasBackground src={background} canvasProps={dimensions}/>
+                    </Layer>
+                )}
                 <Layer>
                     {rectangles.map((rect, i) => {
                         return (
@@ -87,9 +95,6 @@ const Canvas = () => {
                         />
                         );
                     })}
-                </Layer>
-                <Layer>
-                    
                 </Layer>
             </Stage>
         </Box>
