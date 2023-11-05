@@ -4,27 +4,8 @@ import { Stage, Layer } from 'react-konva';
 import Box from '@mui/material/Box';
 import CanvasEntity from './canvas/CanvasEntity.js';
 import CanvasBackground from './canvas/CanvasBackground.js';
-import useImage from 'use-image';
-
-const initialRectangles = [
-    {
-        x: 10,
-        y: 10,
-        width: 100,
-        height: 100,
-        id: 'rect1',
-    },
-    {
-        x: 150,
-        y: 150,
-        width: 100,
-        height: 100,
-        id: 'rect2',
-    },
-];
 
 const Canvas = ({background, image}) => {
-    const [rectangles, setRectangles] = useState(initialRectangles);
     const [selectedId, selectShape] = useState(null);
     const [images, setImages] = useState([]);
 
@@ -66,7 +47,7 @@ const Canvas = ({background, image}) => {
 
     useEffect(() => {
         //При выборе изображения из toolBar добавляем новое изображение
-        setImages(images?.concat([{
+        setImages(images => images?.concat([{
             x: 10,
             y: 10,
             width: 100,

@@ -14,8 +14,8 @@ function CanvasBackground({src, canvasProps}) {
     
     useEffect(() => {
         if(background !== undefined) {
-            const isGorizontal = background.width > background.height;
-
+            const isGorizontal = (canvasProps.width / canvasProps.height) < (background.width / background.height);
+            console.log(canvasProps.width / canvasProps.height, background.width / background.height)
             let width;
             let height;
             let x;
