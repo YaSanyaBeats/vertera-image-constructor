@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import CanvasEntity from './canvas/CanvasEntity.js';
 import CanvasBackground from './canvas/CanvasBackground.js';
 
-const Canvas = ({background, image}) => {
+const Canvas = ({background, image, saving, saveImage}) => {
     const [selectedId, selectShape] = useState(null);
     const [images, setImages] = useState([]);
 
@@ -16,7 +16,6 @@ const Canvas = ({background, image}) => {
     })
 
     const checkDeselect = (e) => {
-        console.log(e.target);
         // deselect when clicked on empty area
         const clickedOnEmpty = e.target === e.target.getStage() || e.target.attrs.id === 'background';
         if (clickedOnEmpty) {
@@ -58,6 +57,13 @@ const Canvas = ({background, image}) => {
         
     }, [image])
 
+    const stageRef = useRef(null);
+    useEffect(() => {
+        if(saving) {
+            saveImage(stageRef.current.toDataURL({ pixelRatio: 2 }));
+        }
+    }, [saving, saveImage])
+
     return (
         <Box bgcolor={'#1E252A'} borderRadius={2} overflow='hidden' ref={boxBounds} height={'100%'}>
             <Stage
@@ -66,6 +72,7 @@ const Canvas = ({background, image}) => {
                 height={dimensions.height}
                 onMouseDown={checkDeselect}
                 onTouchStart={checkDeselect}
+                ref={stageRef}
             >
                 
                 {background && (

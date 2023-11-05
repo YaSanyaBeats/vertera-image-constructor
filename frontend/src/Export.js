@@ -2,7 +2,7 @@ import Stack from '@mui/material/Stack';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import IconButton from '@mui/material/IconButton';
 
-function Export() {
+function Export({handleExport}) {
     return (
         <Stack
             direction="row"
@@ -11,7 +11,7 @@ function Export() {
             className='export-wrapper'
         >
             <span>Сохранить как:</span>
-            <IconButton>
+            <IconButton onClick={handleExport}>
                 <FileDownloadIcon/>
             </IconButton>
         </Stack>

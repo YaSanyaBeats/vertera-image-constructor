@@ -25,6 +25,20 @@ function App() {
     const [currentTool, setCurrentTool] = useState('backgrounds');
     const [background, setBackground] = useState();
     const [image, setImage] = useState();
+    const [saving, setSaving] = useState();
+
+    const handleExport = (event) => {
+        setSaving(true);
+    }
+
+    const saveImage = (dataSource) => {
+        console.log(dataSource);
+        let link = document.createElement('a');
+        link.download = 'filename.png';
+        link.href = dataSource;
+        link.click();
+        setSaving(false);
+    }
 
     const handleChangeEntity = (event) => {
         if(currentTool === 'backgrounds') {
@@ -56,7 +70,7 @@ function App() {
                     </Stack>
                 </Grid>
                 <Grid item xs={8} justifyContent='center'>
-                    <Canvas background={background} image={image}/>
+                    <Canvas background={background} image={image} saving={saving} saveImage={saveImage}/>
                 </Grid>
                 <Grid item xs={2}>
                     <Stack
@@ -64,7 +78,7 @@ function App() {
                         justifyContent='space-between'
                     >
                         <EntityProps/>
-                        <Export/>
+                        <Export handleExport={handleExport}/>
                     </Stack>
                 </Grid>
             </Grid>
