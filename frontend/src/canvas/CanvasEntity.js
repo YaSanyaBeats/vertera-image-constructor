@@ -6,7 +6,7 @@ const CanvasEntity = ({ shapeProps, isSelected, onSelect, onChange }) => {
     const shapeRef = useRef();
     const trRef = useRef();
 
-    const [bgImage] = useImage('https://konvajs.org/assets/lion.png');
+    const [image] = useImage(shapeProps.image);
 
     useEffect(() => {
         if (isSelected) {
@@ -19,11 +19,14 @@ const CanvasEntity = ({ shapeProps, isSelected, onSelect, onChange }) => {
     return (
         <>
             <Image
-            image={bgImage}
+            image={image}
             onClick={onSelect}
             onTap={onSelect}
             ref={shapeRef}
-            {...shapeProps}
+            width={shapeProps.width}
+            height={shapeProps.height}
+            x={shapeProps.x}
+            y={shapeProps.y}
             draggable
             onDragEnd={(e) => {
                 onChange({

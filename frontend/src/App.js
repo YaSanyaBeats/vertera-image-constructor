@@ -24,10 +24,14 @@ const darkTheme = createTheme({
 function App() {
     const [currentTool, setCurrentTool] = useState('backgrounds');
     const [background, setBackground] = useState();
+    const [image, setImage] = useState();
 
     const handleChangeEntity = (event) => {
         if(currentTool === 'backgrounds') {
             setBackground(event.target.src);
+        }
+        else if(currentTool === 'images') {
+            setImage(event.target.src);
         }
     } 
 
@@ -52,7 +56,7 @@ function App() {
                     </Stack>
                 </Grid>
                 <Grid item xs={8} justifyContent='center'>
-                    <Canvas background={background}/>
+                    <Canvas background={background} image={image}/>
                 </Grid>
                 <Grid item xs={2}>
                     <Stack

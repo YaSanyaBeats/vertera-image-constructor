@@ -2,8 +2,9 @@ import React from 'react';
 import {useRef, useState, useEffect} from 'react';
 import { Stage, Layer } from 'react-konva';
 import Box from '@mui/material/Box';
-import CanvasEntity from './canvas/CanvasEntity.js'
-import CanvasBackground from './canvas/CanvasBackground.js'
+import CanvasEntity from './canvas/CanvasEntity.js';
+import CanvasBackground from './canvas/CanvasBackground.js';
+import useImage from 'use-image';
 
 const initialRectangles = [
     {
@@ -22,9 +23,10 @@ const initialRectangles = [
     },
 ];
 
-const Canvas = ({background}) => {
-    const [rectangles, setRectangles] = React.useState(initialRectangles);
-    const [selectedId, selectShape] = React.useState(null);
+const Canvas = ({background, image}) => {
+    const [rectangles, setRectangles] = useState(initialRectangles);
+    const [selectedId, selectShape] = useState(null);
+    const [images, setImages] = useState([]);
 
     //Размер холста
     const [dimensions, setDimensions] = useState({
@@ -62,6 +64,19 @@ const Canvas = ({background}) => {
     }, [])
     //End resize canvas
 
+    useEffect(() => {
+        //При выборе изображения из toolBar добавляем новое изображение
+        setImages(images?.concat([{
+            x: 10,
+            y: 10,
+            width: 100,
+            height: 100,
+            id: 'rect' + images.length,
+            image: image
+        }]));
+        
+    }, [image])
+
     return (
         <Box bgcolor={'#1E252A'} borderRadius={2} overflow='hidden' ref={boxBounds} height={'100%'}>
             <Stage
@@ -78,7 +93,7 @@ const Canvas = ({background}) => {
                     </Layer>
                 )}
                 <Layer>
-                    {rectangles.map((rect, i) => {
+                    {images?.map((rect, i) => {
                         return (
                         <CanvasEntity
                             key={i}
@@ -88,9 +103,9 @@ const Canvas = ({background}) => {
                                 selectShape(rect.id);
                             }}
                             onChange={(newAttrs) => {
-                                const rects = rectangles.slice();
+                                const rects = images.slice();
                                 rects[i] = newAttrs;
-                                setRectangles(rects);
+                                setImages(rects);
                             }}
                         />
                         );
