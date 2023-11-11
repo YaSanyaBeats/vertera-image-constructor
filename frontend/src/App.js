@@ -25,6 +25,7 @@ function App() {
     const [currentTool, setCurrentTool] = useState('backgrounds');
     const [background, setBackground] = useState();
     const [image, setImage] = useState();
+    const [text, setText] = useState();
     const [saving, setSaving] = useState();
 
     const handleExport = (event) => {
@@ -46,6 +47,9 @@ function App() {
         }
         else if(currentTool === 'images') {
             setImage(event.target.src);
+        }
+        else if(currentTool === 'text') {
+            setText(true);
         }
     } 
 
@@ -70,7 +74,7 @@ function App() {
                     </Stack>
                 </Grid>
                 <Grid item xs={8} justifyContent='center'>
-                    <Canvas background={background} image={image} saving={saving} saveImage={saveImage}/>
+                    <Canvas background={background} image={image} text={text} saving={saving} saveImage={saveImage}/>
                 </Grid>
                 <Grid item xs={2}>
                     <Stack

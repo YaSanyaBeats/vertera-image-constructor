@@ -16,6 +16,12 @@ function Entities({tool, changeEntity}) {
     const [linkPath, setLinkPath] = useState();
 
     useEffect(() => {
+        if(tool === 'text') {
+            setBackgrounds(['text.svg']);
+            setLinkPath('/');
+            return;
+        }
+
         fetch('http://localhost:8000/getEntity/?all=true&entityTypeName=' + tool)
         .then(res => res.json())
         .then(

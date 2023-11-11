@@ -5,9 +5,9 @@ import Box from '@mui/material/Box';
 import CanvasEntity from './canvas/CanvasEntity.js';
 import CanvasBackground from './canvas/CanvasBackground.js';
 
-const Canvas = ({background, image, saving, saveImage}) => {
+const Canvas = ({background, image, text, saving, saveImage}) => {
     const [selectedId, selectShape] = useState(null);
-    const [images, setImages] = useState([]);
+    const [entities, setEntities] = useState([]);
 
     //Размер холста
     const [dimensions, setDimensions] = useState({
@@ -46,16 +46,30 @@ const Canvas = ({background, image, saving, saveImage}) => {
 
     useEffect(() => {
         //При выборе изображения из toolBar добавляем новое изображение
-        setImages(images => images?.concat([{
+        setEntities(entities => entities?.concat([{
             x: 10,
             y: 10,
             width: 100,
             height: 100,
-            id: 'rect' + images.length,
+            id: 'rect' + entities.length,
+            type: 'image',
             image: image
         }]));
         
     }, [image])
+
+    useEffect(() => {
+        //При выборе изображения из toolBar добавляем новое изображение
+        setEntities(entities => entities?.concat([{
+            x: 10,
+            y: 10,
+            width: 100,
+            id: 'text' + entities.length,
+            type: 'text',
+            text: 'Hello world!'
+        }]));
+        
+    }, [text])
 
     const stageRef = useRef(null);
     useEffect(() => {
@@ -81,7 +95,7 @@ const Canvas = ({background, image, saving, saveImage}) => {
                     </Layer>
                 )}
                 <Layer>
-                    {images?.map((rect, i) => {
+                    {entities?.map((rect, i) => {
                         return (
                         <CanvasEntity
                             key={i}
@@ -91,9 +105,9 @@ const Canvas = ({background, image, saving, saveImage}) => {
                                 selectShape(rect.id);
                             }}
                             onChange={(newAttrs) => {
-                                const rects = images.slice();
+                                const rects = entities.slice();
                                 rects[i] = newAttrs;
-                                setImages(rects);
+                                setEntities(rects);
                             }}
                         />
                         );
