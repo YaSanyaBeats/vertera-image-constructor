@@ -28,6 +28,7 @@ function App() {
     const [text, setText] = useState(false);
     const [saving, setSaving] = useState();
     const [selectedEntityProps, setSelectedEntityProps] = useState({});
+    const [selectedEntity, setSelectedEntity] = useState();
 
     const handleExport = (event) => {
         setSaving(true);
@@ -52,7 +53,7 @@ function App() {
         else if(currentTool === 'text') {
             setText(true);
         }
-    } 
+    }
 
     return (
         <ThemeProvider theme={darkTheme}>
@@ -75,14 +76,14 @@ function App() {
                     </Stack>
                 </Grid>
                 <Grid item xs={8} justifyContent='center'>
-                    <Canvas background={background} image={image} text={text} saving={saving} saveImage={saveImage} selectedEntityProps={selectedEntityProps} setSelectedEntityProps={setSelectedEntityProps}/>
+                    <Canvas background={background} image={image} text={text} saving={saving} saveImage={saveImage} selectedEntityProps={selectedEntityProps} setSelectedEntityProps={setSelectedEntityProps} selectedEntity={selectedEntity}/>
                 </Grid>
                 <Grid item xs={2}>
                     <Stack
                         className='right-sidebar'
                         justifyContent='space-between'
                     >
-                        <EntityProps selectedEntityProps={selectedEntityProps} setSelectedEntityProps={setSelectedEntityProps}/>
+                        <EntityProps setSelectedEntity={setSelectedEntity} selectedEntityProps={selectedEntityProps} setSelectedEntityProps={setSelectedEntityProps}/>
                         <Export handleExport={handleExport}/>
                     </Stack>
                 </Grid>

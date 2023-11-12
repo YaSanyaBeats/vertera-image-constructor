@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import CanvasEntity from './canvas/CanvasEntity.js';
 import CanvasBackground from './canvas/CanvasBackground.js';
 
-const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps, setSelectedEntityProps}) => {
+const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps, setSelectedEntityProps, selectedEntity}) => {
     const [selectedId, selectShape] = useState(null);
     const [entities, setEntities] = useState([]);
 

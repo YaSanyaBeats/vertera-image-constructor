@@ -42,8 +42,6 @@ function EntityProp({name, value, setValue, propInfo}) {
             setValue(name, currValue);
             setNowValue(currValue);
         }
-        
-        
     }
     
     return (

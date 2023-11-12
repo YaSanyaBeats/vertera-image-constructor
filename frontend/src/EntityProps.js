@@ -2,7 +2,7 @@ import EntityProp from "./EntityProp";
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
-function EntityProps({selectedEntityProps, setSelectedEntityProps}) {
+function EntityProps({setSelectedEntity, selectedEntityProps, setSelectedEntityProps}) {
     const propsDictionary = {
         'x': {
             title: 'x',
@@ -61,7 +61,11 @@ function EntityProps({selectedEntityProps, setSelectedEntityProps}) {
         let tmpEntityProps = selectedEntityProps;
         tmpEntityProps[name] = value;
         setSelectedEntityProps(tmpEntityProps);
+
+        //Каждый раз уникальное значение, чтобы перерендеривался Canvas
+        setSelectedEntity(Date.now());
     }
+
 
     return (
         <Stack
