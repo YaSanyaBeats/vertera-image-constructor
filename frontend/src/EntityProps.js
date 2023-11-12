@@ -2,17 +2,16 @@ import EntityProp from "./EntityProp";
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
-function EntityProps() {
+function EntityProps({selectedEntityProps}) {
     return (
         <Stack
             spacing={2}
             useFlexGap 
         >
-            <span><b>Свойства объекта:</b> Image1</span>
-            <EntityProp/>
-            <EntityProp/>
-            <EntityProp/>
-            <EntityProp/>
+            <span><b>Свойства объекта:</b> {selectedEntityProps?.id}</span>
+            {Object.keys(selectedEntityProps).map((prop, index) => (
+                <EntityProp key={index} name={prop} value={selectedEntityProps[prop]}/>
+            ))}
             <Stack
                 my={2}
                 direction='row'

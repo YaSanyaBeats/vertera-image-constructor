@@ -27,6 +27,7 @@ function App() {
     const [image, setImage] = useState();
     const [text, setText] = useState(false);
     const [saving, setSaving] = useState();
+    const [selectedEntityProps, setSelectedEntityProps] = useState({});
 
     const handleExport = (event) => {
         setSaving(true);
@@ -74,14 +75,14 @@ function App() {
                     </Stack>
                 </Grid>
                 <Grid item xs={8} justifyContent='center'>
-                    <Canvas background={background} image={image} text={text} saving={saving} saveImage={saveImage}/>
+                    <Canvas background={background} image={image} text={text} saving={saving} saveImage={saveImage} setSelectedEntityProps={setSelectedEntityProps}/>
                 </Grid>
                 <Grid item xs={2}>
                     <Stack
                         className='right-sidebar'
                         justifyContent='space-between'
                     >
-                        <EntityProps/>
+                        <EntityProps selectedEntityProps={selectedEntityProps}/>
                         <Export handleExport={handleExport}/>
                     </Stack>
                 </Grid>

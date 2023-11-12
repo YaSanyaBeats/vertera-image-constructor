@@ -1,7 +1,9 @@
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 
-function EntityProp() {
+function EntityProp({name, value}) {
+    const isNumber = !isNaN(+value);
+    
     return (
         <Stack
             direction="row"
@@ -10,8 +12,8 @@ function EntityProp() {
             spacing={2}
             useFlexGap 
         >
-            <span>Ширина:</span>
-            <TextField type="number" size="small"/>
+            <span>{name}:</span>
+            <TextField type={isNumber ? 'number' : 'text'} size="small" value={value}/>
         </Stack>
     );
 }
