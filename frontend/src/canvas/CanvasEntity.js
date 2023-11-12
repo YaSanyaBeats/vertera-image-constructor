@@ -68,14 +68,14 @@ const CanvasEntity = ({ shapeProps, isSelected, onSelect, onChange }) => {
             <>
                 <Text
                 onClick={onSelect}
-                fontSize={60}
-                text="12332"
-                color='red'
+                fontSize={shapeProps.fontSize}
+                text={shapeProps.text}
                 onTap={onSelect}
                 ref={shapeRef}
                 width={shapeProps.width}
                 x={shapeProps.x}
                 y={shapeProps.y}
+                fill={shapeProps.fill}
                 draggable
                 onDragEnd={(e) => {
                     onChange({

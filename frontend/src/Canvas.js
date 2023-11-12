@@ -56,7 +56,8 @@ const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps
             height: 100,
             id: 'rect' + entities.length,
             type: 'image',
-            image: image
+            image: image,
+            rotater: 56
         }]));
         
     }, [image])
@@ -69,10 +70,13 @@ const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps
         setEntities(entities => entities?.concat([{
             x: 10,
             y: 10,
-            width: 100,
+            width: 300,
             id: 'text' + entities.length,
             type: 'text',
-            text: 'Hello world!'
+            fontSize: 50,
+            text: 'Vertera',
+            fill: '#000000',
+            rotater: 0
         }]));
         
     }, [text])
