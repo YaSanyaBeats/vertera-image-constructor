@@ -47,6 +47,21 @@ function EntityProps({setSelectedEntity, selectedEntityProps, setSelectedEntityP
             title: 'Размер текста',
             type: 'number'
         },
+        'ratio': {
+            title: 'Соотношение сторон',
+            type: 'select',
+            options: {
+                '16:9': {
+                    title: '16:9 (Горизонтальное)'
+                },
+                '1:1': {
+                    title: '1:1 (Квадрат)'
+                },
+                '9:16': {
+                    title: '9:16 (Вертикальное)'
+                },
+            }
+        }
     };
 
     const getEditebleProps = () => {

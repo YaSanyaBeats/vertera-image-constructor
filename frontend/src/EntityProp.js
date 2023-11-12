@@ -63,7 +63,7 @@ function EntityProp({name, value, setValue, propInfo}) {
                     ))}
                 </Select>
             ) : propInfo.type === 'color' ? (
-                <MuiColorInput format="hex" value={nowValue} onChange={handleChange} />
+                <MuiColorInput format="hex8" value={nowValue} onChange={handleChange} />
             ) : (
                 <TextField type={propInfo.type} size="small" value={nowValue} onChange={handleChange}/>
             )}

@@ -1,5 +1,5 @@
 import React from 'react';
-import {useRef, useState, useEffect} from 'react';
+import {useRef, useState, useEffect, useCallback} from 'react';
 import { Stage, Layer } from 'react-konva';
 import Box from '@mui/material/Box';
 import CanvasEntity from './canvas/CanvasEntity.js';
@@ -8,6 +8,7 @@ import CanvasBackground from './canvas/CanvasBackground.js';
 const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps, setSelectedEntityProps, selectedEntity}) => {
     const [selectedId, selectShape] = useState(null);
     const [entities, setEntities] = useState([]);
+    const [ratio, setRatio] = useState('16:9');
 
     //Размер холста
     const [dimensions, setDimensions] = useState({
@@ -26,12 +27,17 @@ const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps
     //Resize canvas
     const boxBounds = useRef(null);
 
-    const resizeHandler = () => {
+    const resizeHandler = useCallback(() => {
+        if(!ratio) {
+            return;
+        }
+        let [widthRatio, heightRatio] = ratio.split(':');
+
         setDimensions({
-            width: boxBounds.current.offsetWidth,
+            width: boxBounds.current.clientHeight / heightRatio * widthRatio,
             height: boxBounds.current.clientHeight,
         });
-    }
+    }, [ratio])
 
     useEffect(() => {
         window.addEventListener("resize", resizeHandler);
@@ -41,7 +47,8 @@ const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps
         return () => {
             window.removeEventListener("resize", resizeHandler);
         };
-    }, [])
+        
+    }, [resizeHandler])
     //End resize canvas
 
     useEffect(() => {
@@ -57,12 +64,12 @@ const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps
             id: 'rect' + entities.length,
             type: 'image',
             image: image,
-            rotater: 56
         }]));
         
-    }, [image])
+    }, [image, text])
 
     useEffect(() => {
+        console.log(text);
         if(!text) {
             return;
         }
@@ -77,7 +84,6 @@ const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps
             fontSize: 50,
             text: 'Vertera',
             fill: '#000000',
-            rotater: 0
         }]));
         
     }, [text])
@@ -90,12 +96,24 @@ const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps
             setSelectedEntityProps(needEntity);
         }
         else {
+            console.log(ratio);
+            if(!ratio) {
+                return;
+            }
             setSelectedEntityProps({
                 id: 'main-stage',
-                type: 'stage'
+                type: 'stage',
+                ratio: ratio
             })
         }
-    }, [selectedId, entities, setSelectedEntityProps])
+    }, [selectedId, entities, setSelectedEntityProps, ratio])
+
+    useEffect(() => {
+        if(!selectedEntityProps.ratio) {
+            return;
+        }
+        setRatio(selectedEntityProps.ratio);
+    }, [selectedEntityProps, selectedEntity])
 
     const stageRef = useRef(null);
     useEffect(() => {

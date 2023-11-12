@@ -51,7 +51,7 @@ function App() {
             setImage(event.target.src);
         }
         else if(currentTool === 'text') {
-            setText(true);
+            setText(Date.now());
         }
     }
 
@@ -75,8 +75,10 @@ function App() {
                         <Entities tool={currentTool} changeEntity={handleChangeEntity}/>
                     </Stack>
                 </Grid>
-                <Grid item xs={8} justifyContent='center'>
-                    <Canvas background={background} image={image} text={text} saving={saving} saveImage={saveImage} selectedEntityProps={selectedEntityProps} setSelectedEntityProps={setSelectedEntityProps} selectedEntity={selectedEntity}/>
+                <Grid item xs={8}>
+                    <Grid display="flex" justifyContent="center" height={'100%'}>
+                        <Canvas background={background} image={image} text={text} saving={saving} saveImage={saveImage} selectedEntityProps={selectedEntityProps} setSelectedEntityProps={setSelectedEntityProps} selectedEntity={selectedEntity}/>
+                    </Grid>
                 </Grid>
                 <Grid item xs={2}>
                     <Stack
