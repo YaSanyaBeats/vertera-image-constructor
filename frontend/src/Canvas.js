@@ -45,6 +45,9 @@ const Canvas = ({background, image, text, saving, saveImage}) => {
     //End resize canvas
 
     useEffect(() => {
+        if(!image) {
+            return;
+        }
         //При выборе изображения из toolBar добавляем новое изображение
         setEntities(entities => entities?.concat([{
             x: 10,
@@ -59,6 +62,9 @@ const Canvas = ({background, image, text, saving, saveImage}) => {
     }, [image])
 
     useEffect(() => {
+        if(!text) {
+            return;
+        }
         //При выборе изображения из toolBar добавляем новое изображение
         setEntities(entities => entities?.concat([{
             x: 10,

@@ -25,7 +25,7 @@ function App() {
     const [currentTool, setCurrentTool] = useState('backgrounds');
     const [background, setBackground] = useState();
     const [image, setImage] = useState();
-    const [text, setText] = useState();
+    const [text, setText] = useState(false);
     const [saving, setSaving] = useState();
 
     const handleExport = (event) => {
