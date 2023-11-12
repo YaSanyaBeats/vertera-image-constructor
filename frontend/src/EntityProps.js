@@ -2,7 +2,15 @@ import EntityProp from "./EntityProp";
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
-function EntityProps({selectedEntityProps}) {
+function EntityProps({selectedEntityProps, setSelectedEntityProps}) {
+
+    const setValue = (name, value) => {
+        let tmpEntityProps = selectedEntityProps;
+        tmpEntityProps[name] = value;
+        setSelectedEntityProps(tmpEntityProps);
+        console.log('changed');
+    }
+
     return (
         <Stack
             spacing={2}
@@ -10,7 +18,7 @@ function EntityProps({selectedEntityProps}) {
         >
             <span><b>Свойства объекта:</b> {selectedEntityProps?.id}</span>
             {Object.keys(selectedEntityProps).map((prop, index) => (
-                <EntityProp key={index} name={prop} value={selectedEntityProps[prop]}/>
+                <EntityProp key={index} name={prop} value={selectedEntityProps[prop]} setValue={setValue}/>
             ))}
             <Stack
                 my={2}

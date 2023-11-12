@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import CanvasEntity from './canvas/CanvasEntity.js';
 import CanvasBackground from './canvas/CanvasBackground.js';
 
-const Canvas = ({background, image, text, saving, saveImage, setSelectedEntityProps}) => {
+const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps, setSelectedEntityProps}) => {
     const [selectedId, selectShape] = useState(null);
     const [entities, setEntities] = useState([]);
 
@@ -92,6 +92,19 @@ const Canvas = ({background, image, text, saving, saveImage, setSelectedEntityPr
             })
         }
     }, [selectedId, entities, setSelectedEntityProps])
+
+    /*useEffect(() => {
+        console.log('changed2');
+        const newEntityes = entities.map(entity => {
+            if(entity.id === selectedEntityProps.id) {
+                return selectedEntityProps;
+            }
+            return entity;
+        })
+
+        setEntities(newEntityes);
+        
+    }, [selectedEntityProps])*/
 
     const stageRef = useRef(null);
     useEffect(() => {
