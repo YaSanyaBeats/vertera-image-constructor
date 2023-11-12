@@ -12,7 +12,7 @@ import EntityProps from './EntityProps.js';
 import Export from './Export.js';
 import Login from './Login';
 
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 
 const darkTheme = createTheme({
     palette: {

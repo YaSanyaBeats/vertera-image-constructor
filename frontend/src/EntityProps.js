@@ -3,12 +3,64 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
 function EntityProps({selectedEntityProps, setSelectedEntityProps}) {
+    const propsDictionary = {
+        'x': {
+            title: 'x',
+            type: 'number'
+        },
+        'y': {
+            title: 'y',
+            type: 'number'
+        },
+        'width': {
+            title: 'Ширина',
+            type: 'number'
+        },
+        'height': {
+            title: 'Высота',
+            type: 'number'
+        },
+        'text': {
+            title: 'Текст',
+            type: 'text'
+        },
+        'fill': {
+            title: 'Цвет',
+            type: 'color',
+        },
+        'align': {
+            title: 'Выравнивание',
+            type: 'select',
+            options: {
+                'left': {
+                    title: 'Слева',
+                }, 
+                'center': {
+                    title: 'Посередине',
+                }, 
+                'right': {
+                    title: 'Справа',
+                }, 
+            }
+        },
+        'fontSize': {
+            title: 'Размер текста',
+            type: 'number'
+        },
+    };
+
+    const getEditebleProps = () => {
+
+        let filtered = Object.keys(selectedEntityProps).filter((prop) => {
+            return propsDictionary[prop];
+        });
+        return filtered;
+    }
 
     const setValue = (name, value) => {
         let tmpEntityProps = selectedEntityProps;
         tmpEntityProps[name] = value;
         setSelectedEntityProps(tmpEntityProps);
-        console.log('changed');
     }
 
     return (
@@ -17,8 +69,8 @@ function EntityProps({selectedEntityProps, setSelectedEntityProps}) {
             useFlexGap 
         >
             <span><b>Свойства объекта:</b> {selectedEntityProps?.id}</span>
-            {Object.keys(selectedEntityProps).map((prop, index) => (
-                <EntityProp key={index} name={prop} value={selectedEntityProps[prop]} setValue={setValue}/>
+            {getEditebleProps().map((prop, index) => (
+                <EntityProp key={index} name={prop} value={selectedEntityProps[prop]} setValue={setValue} propInfo={propsDictionary[prop]}/>
             ))}
             <Stack
                 my={2}

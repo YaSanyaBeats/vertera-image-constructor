@@ -69,6 +69,7 @@ const CanvasEntity = ({ shapeProps, isSelected, onSelect, onChange }) => {
                 <Text
                 onClick={onSelect}
                 fontSize={shapeProps.fontSize}
+                align={shapeProps.align}
                 text={shapeProps.text}
                 onTap={onSelect}
                 ref={shapeRef}

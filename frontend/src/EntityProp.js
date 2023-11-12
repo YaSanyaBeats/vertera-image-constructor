@@ -1,8 +1,13 @@
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import {useRef, useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 
-function EntityProp({name, value, setValue}) {
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import { MuiColorInput, matchIsValidColor } from 'mui-color-input'
+
+
+function EntityProp({name, value, setValue, propInfo}) {
     const isNumber = !isNaN(+value);
 
     const setStartValue = (startValue) => {
@@ -16,26 +21,29 @@ function EntityProp({name, value, setValue}) {
     
     useEffect(() => {
         if(isNumber) {
-            if(Math.round(value) != Math.round(nowValue)) {
-                setNowValue(Math.round(value));
-            }
+            setNowValue(Math.round(value));
         }
         else {
-            if(value != nowValue) {
-                setNowValue(value);
-            }
+            setNowValue(value);
         }
-        
-    }, [value])
+    }, [value, isNumber])
 
     const handleChange = (event) => {
-        let currValue = event.target.value;
-        if(isNumber) {
-            currValue = +currValue;
+        if(matchIsValidColor(event)) {
+            setValue(name, event);
+            setNowValue(event);
+        }
+        else {
+            let currValue = event.target.value;
+            if(isNumber) {
+                currValue = +currValue;
+            }
+            
+            setValue(name, currValue);
+            setNowValue(currValue);
         }
         
-        setValue(name, currValue);
-        setNowValue(currValue);
+        
     }
     
     return (
@@ -46,8 +54,22 @@ function EntityProp({name, value, setValue}) {
             spacing={2}
             useFlexGap 
         >
-            <span>{name}:</span>
-            <TextField type={isNumber ? 'number' : 'text'} size="small" value={nowValue} onChange={handleChange}/>
+            <span>{propInfo.title}:</span>
+            {propInfo.type === 'select' ? (
+                <Select
+                    value={nowValue}
+                    onChange={handleChange}
+                >
+                    {Object.keys(propInfo.options).map((option, index) => (
+                        <MenuItem key={index} value={option}>{propInfo.options[option].title}</MenuItem>
+                    ))}
+                </Select>
+            ) : propInfo.type === 'color' ? (
+                <MuiColorInput format="hex" value={nowValue} onChange={handleChange} />
+            ) : (
+                <TextField type={propInfo.type} size="small" value={nowValue} onChange={handleChange}/>
+            )}
+            
         </Stack>
     );
 }

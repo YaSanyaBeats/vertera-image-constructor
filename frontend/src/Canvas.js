@@ -73,6 +73,7 @@ const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps
             width: 300,
             id: 'text' + entities.length,
             type: 'text',
+            align: 'left',
             fontSize: 50,
             text: 'Vertera',
             fill: '#000000',
@@ -87,7 +88,6 @@ const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps
         })
         if(needEntity) {
             setSelectedEntityProps(needEntity);
-            console.log(needEntity);
         }
         else {
             setSelectedEntityProps({
@@ -96,19 +96,6 @@ const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps
             })
         }
     }, [selectedId, entities, setSelectedEntityProps])
-
-    /*useEffect(() => {
-        console.log('changed2');
-        const newEntityes = entities.map(entity => {
-            if(entity.id === selectedEntityProps.id) {
-                return selectedEntityProps;
-            }
-            return entity;
-        })
-
-        setEntities(newEntityes);
-        
-    }, [selectedEntityProps])*/
 
     const stageRef = useRef(null);
     useEffect(() => {
