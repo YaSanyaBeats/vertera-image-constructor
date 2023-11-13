@@ -13,35 +13,36 @@ function CanvasBackground({src, canvasProps}) {
     });
     
     useEffect(() => {
-        if(background !== undefined) {
-            const isGorizontal = (canvasProps.width / canvasProps.height) < (background.width / background.height);
-            let width;
-            let height;
-            let x;
-            let y;
-
-            if(isGorizontal) {
-                width = canvasProps.width;
-                height = background.height / (background.width / canvasProps.width);
-                x = 0;
-                y = (canvasProps.height - height) / 2;
-
-                
-            }
-            else {
-                width = background.width / (background.height / canvasProps.height);;
-                height = canvasProps.height;
-                x = (canvasProps.width - width) / 2;
-                y = 0;
-            }
-
-            setDimention({
-                width: width,
-                height: height,
-                x: x,
-                y: y
-            })
+        if(background === undefined) {
+            return
         }
+
+        const isGorizontal = (canvasProps.width / canvasProps.height) < (background.width / background.height);
+        let width;
+        let height;
+        let x;
+        let y;
+
+        if(!isGorizontal) {
+            width = canvasProps.width;
+            height = background.height / (background.width / canvasProps.width);
+            x = 0;
+            y = (canvasProps.height - height) / 2;
+        }
+        else {
+            width = background.width / (background.height / canvasProps.height);;
+            height = canvasProps.height;
+            x = (canvasProps.width - width) / 2;
+            y = 0;
+        }
+
+        setDimention({
+            width: width,
+            height: height,
+            x: x,
+            y: y
+        })
+
     }, [background, canvasProps])
 
     return (
