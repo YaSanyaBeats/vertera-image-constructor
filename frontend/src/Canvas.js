@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import CanvasEntity from './canvas/CanvasEntity.js';
 import CanvasBackground from './canvas/CanvasBackground.js';
 
-const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps, setSelectedEntityProps, selectedEntity}) => {
+const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps, setSelectedEntityProps, selectedEntity, buttonClicked}) => {
     const [selectedId, selectShape] = useState(null);
     const [entities, setEntities] = useState([]);
     const [ratio, setRatio] = useState('16:9');
@@ -23,6 +23,29 @@ const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps
             selectShape(null);
         }
     };
+
+    const copySelectedEntity = useCallback(() => {
+        
+        const [needEntity] = entities.filter((entity) => {
+            return entity.id === selectedId;
+        })
+        if(needEntity) {
+            let copyEntity = {};
+            Object.assign(copyEntity, needEntity);
+            copyEntity.id += ' ' + Date.now();
+            copyEntity.x += 20;
+            copyEntity.y += 20;
+            console.log(entities?.concat(copyEntity));
+            setEntities(entities?.concat(copyEntity));
+            
+        }
+    }, [entities, selectedId])
+
+    const deleteSelectedEntity = useCallback(() => {
+        setEntities(entities?.filter(entity => {
+            return entity.id !== selectedId;
+        }));
+    }, [entities, selectedId])
 
     //Resize canvas
     const boxBounds = useRef(null);
@@ -69,7 +92,6 @@ const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps
     }, [image, text])
 
     useEffect(() => {
-        console.log(text);
         if(!text) {
             return;
         }
@@ -96,7 +118,6 @@ const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps
             setSelectedEntityProps(needEntity);
         }
         else {
-            console.log(ratio);
             if(!ratio) {
                 return;
             }
@@ -115,9 +136,27 @@ const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps
         setRatio(selectedEntityProps.ratio);
     }, [selectedEntityProps, selectedEntity])
 
+    useEffect(() => {
+        if(buttonClicked === undefined) {
+            return;
+        }
+        switch (buttonClicked.type) {
+            case 'copy':
+                copySelectedEntity();
+                break;
+            case 'delete':
+                deleteSelectedEntity();
+                break;
+            default:
+                break;
+        }
+        console.log(buttonClicked.type);
+    }, [buttonClicked])
+
     const stageRef = useRef(null);
     useEffect(() => {
         if(saving) {
+            selectShape(null);
             saveImage(stageRef.current.toDataURL({ pixelRatio: 2 }));
         }
     }, [saving, saveImage])
@@ -131,8 +170,8 @@ const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps
                 onMouseDown={checkDeselect}
                 onTouchStart={checkDeselect}
                 ref={stageRef}
+
             >
-                
                 {background && (
                     <Layer>
                         <CanvasBackground src={background} canvasProps={dimensions}/>

@@ -29,13 +29,13 @@ function App() {
     const [saving, setSaving] = useState();
     const [selectedEntityProps, setSelectedEntityProps] = useState({});
     const [selectedEntity, setSelectedEntity] = useState();
+    const [buttonClicked, setButtonClicked] = useState();
 
     const handleExport = (event) => {
         setSaving(true);
     }
 
     const saveImage = (dataSource) => {
-        console.log(dataSource);
         let link = document.createElement('a');
         link.download = 'filename.png';
         link.href = dataSource;
@@ -77,7 +77,7 @@ function App() {
                 </Grid>
                 <Grid item xs={8}>
                     <Grid display="flex" justifyContent="center" height={'100%'}>
-                        <Canvas background={background} image={image} text={text} saving={saving} saveImage={saveImage} selectedEntityProps={selectedEntityProps} setSelectedEntityProps={setSelectedEntityProps} selectedEntity={selectedEntity}/>
+                        <Canvas background={background} image={image} text={text} saving={saving} saveImage={saveImage} selectedEntityProps={selectedEntityProps} setSelectedEntityProps={setSelectedEntityProps} selectedEntity={selectedEntity} buttonClicked={buttonClicked}/>
                     </Grid>
                 </Grid>
                 <Grid item xs={2}>
@@ -85,7 +85,7 @@ function App() {
                         className='right-sidebar'
                         justifyContent='space-between'
                     >
-                        <EntityProps setSelectedEntity={setSelectedEntity} selectedEntityProps={selectedEntityProps} setSelectedEntityProps={setSelectedEntityProps}/>
+                        <EntityProps setSelectedEntity={setSelectedEntity} selectedEntityProps={selectedEntityProps} setSelectedEntityProps={setSelectedEntityProps} setButtonClicked={setButtonClicked}/>
                         <Export handleExport={handleExport}/>
                     </Stack>
                 </Grid>

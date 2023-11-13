@@ -2,7 +2,9 @@ import EntityProp from "./EntityProp";
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
-function EntityProps({setSelectedEntity, selectedEntityProps, setSelectedEntityProps}) {
+import {useState, useEffect} from 'react';
+
+function EntityProps({setSelectedEntity, selectedEntityProps, setSelectedEntityProps, setButtonClicked}) {
     const propsDictionary = {
         'x': {
             title: 'x',
@@ -64,6 +66,7 @@ function EntityProps({setSelectedEntity, selectedEntityProps, setSelectedEntityP
         }
     };
 
+
     const getEditebleProps = () => {
 
         let filtered = Object.keys(selectedEntityProps).filter((prop) => {
@@ -77,17 +80,22 @@ function EntityProps({setSelectedEntity, selectedEntityProps, setSelectedEntityP
         tmpEntityProps[name] = value;
         setSelectedEntityProps(tmpEntityProps);
 
+        console.log(selectedEntityProps);
+
         //Каждый раз уникальное значение, чтобы перерендеривался Canvas
         setSelectedEntity(Date.now());
     }
 
+    const handleClick = (buttonType, event) => {
+        setButtonClicked({type: buttonType});
+    }
 
     return (
         <Stack
             spacing={2}
             useFlexGap 
         >
-            <span><b>Свойства объекта:</b> {selectedEntityProps?.id}</span>
+            <span><b>Свойства объекта:</b> {selectedEntityProps?.id?.split(' ')[0]}</span>
             {getEditebleProps().map((prop, index) => (
                 <EntityProp key={index} name={prop} value={selectedEntityProps[prop]} setValue={setValue} propInfo={propsDictionary[prop]}/>
             ))}
@@ -98,9 +106,13 @@ function EntityProps({setSelectedEntity, selectedEntityProps, setSelectedEntityP
                 spacing={1}
                 useFlexGap 
             >
-                <Button variant="outlined">На передний план</Button>
-                <Button variant="outlined">На задний план</Button>
-                <Button variant="outlined" color="error">Удалить</Button>
+                {selectedEntityProps?.type !== 'stage' && (
+                    <>
+                        <Button variant="outlined" onClick={handleClick.bind(this, 'copy')}>Дублировать</Button>
+                        <Button variant="outlined" color="error" onClick={handleClick.bind(this, 'delete')}>Удалить</Button>
+                    </>
+                )}
+                
             </Stack>
         </Stack>
         
