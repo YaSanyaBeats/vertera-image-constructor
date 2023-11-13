@@ -41,9 +41,6 @@ function ToolBar({changeTool}) {
             direction="row"
             alignItems="center"
         >
-            <Box mr={2}>
-                <span>Добавить:</span>
-            </Box>
             <Tabs value={tool} onChange={handleChange} aria-label="bg image text">
                 <Tab className="tool-tab" aria-label="bg" icon={<ImageIcon />} />
                 <Tab className="tool-tab" aria-label="image" icon={<LocalFloristIcon />} />
