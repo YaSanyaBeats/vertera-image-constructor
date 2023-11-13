@@ -3,7 +3,9 @@ import LoginIcon from '@mui/icons-material/Login';
 
 function Login() {
     return (
-        <Button variant="outlined" startIcon={<LoginIcon />}>Войти</Button>
+        <>
+        {/*<Button variant="outlined" startIcon={<LoginIcon />}>Войти</Button>*/}
+        </>
     );
 }
 

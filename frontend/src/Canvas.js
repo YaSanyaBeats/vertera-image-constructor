@@ -78,16 +78,22 @@ const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps
         if(!image) {
             return;
         }
+        const img = new Image();
+        img.src = image;
+        img.onload = function() {
+            let width = this.width;
+            let height = this.height;
+            setEntities(entities => entities?.concat([{
+                x: 10,
+                y: 10,
+                width: 200,
+                height: 200 / (width / height),
+                id: 'rect' + entities.length,
+                type: 'image',
+                image: image,
+            }]));
+        }
         //При выборе изображения из toolBar добавляем новое изображение
-        setEntities(entities => entities?.concat([{
-            x: 10,
-            y: 10,
-            width: 100,
-            height: 100,
-            id: 'rect' + entities.length,
-            type: 'image',
-            image: image,
-        }]));
         
     }, [image, text])
 

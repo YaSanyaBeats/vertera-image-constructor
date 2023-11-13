@@ -49,7 +49,7 @@ function Entities({tool, changeEntity}) {
                 <SwiperSlide>
                     <Masonry columns={2} spacing={2}>
                         {backgrounds.map((bg, index) => (
-                            <Entity key={index} src={linkPath + bg} onClick={changeEntity}/>
+                            <Entity key={index} src={linkPath + bg} onClick={changeEntity} tool={tool}/>
                         ))}
                     </Masonry>
                 </SwiperSlide>

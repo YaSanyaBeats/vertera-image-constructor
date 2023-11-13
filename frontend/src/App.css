@@ -16,6 +16,7 @@
 
 .entity-image_cover {
     object-fit: cover;
+    padding: 5px;
 }
 
 .entity-image_contain {
