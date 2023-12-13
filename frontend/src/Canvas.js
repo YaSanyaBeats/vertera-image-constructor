@@ -95,7 +95,7 @@ const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps
         }
         //При выборе изображения из toolBar добавляем новое изображение
         
-    }, [image, text])
+    }, [image])
 
     useEffect(() => {
         if(!text) {
@@ -110,6 +110,9 @@ const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps
             type: 'text',
             align: 'left',
             fontSize: 50,
+            fontFamily: "Arial",
+            fontStyle: "normal",
+            textDecoration: "normal",
             text: 'Vertera',
             fill: '#000000',
         }]));

@@ -6,14 +6,14 @@ import {useState, useEffect} from 'react';
 
 function EntityProps({setSelectedEntity, selectedEntityProps, setSelectedEntityProps, setButtonClicked}) {
     const propsDictionary = {
-        'x': {
-            title: 'x',
-            type: 'number'
-        },
-        'y': {
-            title: 'y',
-            type: 'number'
-        },
+        // 'x': {
+        //     title: 'x',
+        //     type: 'number'
+        // },
+        // 'y': {
+        //     title: 'y',
+        //     type: 'number'
+        // },
         'width': {
             title: 'Ширина',
             type: 'number'
@@ -48,6 +48,51 @@ function EntityProps({setSelectedEntity, selectedEntityProps, setSelectedEntityP
         'fontSize': {
             title: 'Размер текста',
             type: 'number'
+        },
+        'fontFamily': {
+            title: "Шрифт",
+            type: 'select',
+            options: {
+                "Arial": {
+                    title: "Без засечек"
+                },
+                "Serif": {
+                    title: "С засечками"
+                }
+            }
+        },
+        'fontStyle': {
+            title: "Стиль шрифта",
+            type: 'select',
+            options: {
+                "normal": {
+                    title: "Обычный"
+                },
+                "italic": {
+                    title: "Курсив"
+                },
+                "bold": {
+                    title: "Жирный"
+                },
+                "italic bold": {
+                    title: "Жирный курсив"
+                }
+            }
+        },
+        'textDecoration': {
+            title: "Оформление шрифта",
+            type: 'select',
+            options: {
+                "normal": {
+                    title: "Обычный"
+                },
+                "underline": {
+                    title: "Подчёркнутый"
+                },
+                "line-through": {
+                    title: "Перечёркнутый"
+                }
+            }
         },
         'ratio': {
             title: 'Соотношение сторон',

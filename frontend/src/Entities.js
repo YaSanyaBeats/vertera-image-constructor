@@ -5,15 +5,33 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/scrollbar';
 
-import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Entity from './Entity';
 import Masonry from '@mui/lab/Masonry';
+import Button from '@mui/material/Button';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { styled } from '@mui/material/styles';
+
+import { MuiFileInput } from 'mui-file-input'
 
 import { useEffect, useState } from 'react';
+
+const VisuallyHiddenInput = styled(MuiFileInput)({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+  });
 
 function Entities({tool, changeEntity}) {
     const [backgrounds, setBackgrounds] = useState([]);
     const [linkPath, setLinkPath] = useState();
+    const [localImages, setLocalImages] = useState([]);
 
     useEffect(() => {
         if(tool === 'text') {
@@ -26,8 +44,14 @@ function Entities({tool, changeEntity}) {
         .then(res => res.json())
         .then(
             (result) => {
-                setBackgrounds(result);
+                let currentLocalImages = localImages.filter((item) => {
+                                                return item.tool === tool;
+                                            }).map((item) => {
+                                                return item.src;
+                                            });
+                setBackgrounds(result.concat(currentLocalImages));
                 setLinkPath('http://localhost:8000/getEntity/?all=false&entityTypeName=' + tool + '&entityName=');
+                console.log(result.concat(currentLocalImages));
             },
             (error) => {
                 console.log("Backgrounds not loaded");
@@ -35,8 +59,35 @@ function Entities({tool, changeEntity}) {
         )
     }, [tool])
 
+    const getImageLink = (link) => {
+        if(link.startsWith('data:image')) {
+            return link;
+        }
+        return linkPath + link;
+    }
+
+    const uploadEntity = (file) => {
+        const reader = new FileReader();
+
+        reader.addEventListener(
+            "load",
+            () => {
+                let lastBackgrounds = backgrounds.concat();
+                lastBackgrounds.push(reader.result);
+                setBackgrounds(lastBackgrounds);
+
+                let lastLocal = localImages.concat();
+                lastLocal.push({"tool": tool, "src": reader.result});
+                setLocalImages(lastLocal);
+            },
+          );
+        
+        reader.readAsDataURL(file);
+
+    }
+
     return (
-        <Box mt={2}>
+        <Stack mt={2} spacing={2} alignItems="flex-start" justifyContent="space-between" height="100%">
             <Swiper
                 direction={'vertical'}
                 slidesPerView={'auto'}
@@ -49,12 +100,18 @@ function Entities({tool, changeEntity}) {
                 <SwiperSlide>
                     <Masonry columns={2} spacing={2}>
                         {backgrounds.map((bg, index) => (
-                            <Entity key={index} src={linkPath + bg} onClick={changeEntity} tool={tool}/>
+                            <Entity key={index} src={getImageLink(bg)} onClick={changeEntity} tool={tool}/>
                         ))}
                     </Masonry>
                 </SwiperSlide>
+                
             </Swiper>
-        </Box>
+            
+            <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+                Загрузить
+                <VisuallyHiddenInput inputProps={{ accept: '.png, .jpeg' }} onChange={uploadEntity} />
+            </Button>
+        </Stack>
     );
 }
 

@@ -77,6 +77,9 @@ const CanvasEntity = ({ shapeProps, isSelected, onSelect, onChange }) => {
                 x={shapeProps.x}
                 y={shapeProps.y}
                 fill={shapeProps.fill}
+                fontFamily={shapeProps.fontFamily}
+                fontStyle={shapeProps.fontStyle}
+                textDecoration={shapeProps.textDecoration}
                 draggable
                 onDragEnd={(e) => {
                     onChange({

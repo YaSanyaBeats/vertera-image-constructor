@@ -4,7 +4,9 @@
 }
 
 .entity-swiper {
-    max-height: calc(100vh - 180px);
+    max-height: calc(100vh - 240px);
+    min-height: calc(100vh - 240px);
+    width: 100%;
 }
 
 .entity-image {
@@ -41,4 +43,16 @@
 
 .main-canvas .konvajs-content canvas {
     height: 100% !important;
+}
+
+.hidden-input {
+    clip: rect(0 0 0 0);
+    clipPath: inset(50%);
+    height: 1;
+    overflow: hidden;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    whiteSpace: nowrap;
+    width: 1;
 }
