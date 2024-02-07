@@ -1,7 +1,7 @@
 import Button from '@mui/material/Button';
 import LoadingButton from '@mui/lab/LoadingButton';
 import LoginIcon from '@mui/icons-material/Login';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 
@@ -14,22 +14,93 @@ import TextField from '@mui/material/TextField';
 
 import Stack from '@mui/material/Stack';
 
+import Alert from '@mui/material/Alert';
+import Collapse from '@mui/material/Collapse';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { MuiFileInput } from 'mui-file-input'
+import { styled } from '@mui/material/styles';
+import CircularProgress from '@mui/material/CircularProgress';
+
+import ImageIcon from '@mui/icons-material/Image';
+import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
+
+const VisuallyHiddenInput = styled(MuiFileInput)({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+  });
+
 function Login() {
-    const [open, setOpen] = useState(false);
-    const [loader, setLoader] = useState(false);
+    const [loginOpen, setLoginOpen] = useState(false);
+    const [uploadOpen, setUploadOpen] = useState(false);
+    const [autoLoginLoader, setAutoLoginLoader] = useState(true);
+    const [popupLoader, setPopupLoader] = useState(false);
+
+    const [backButtonLoader, setBackButtonLoader] = useState(false);
+    const [imageButtonLoader, setImageButtonLoader] = useState(false);
+
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
+    const [isLogin, setIsLogin] = useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
+    const [alarmObj, setAlarmObj] = useState({
+        open: false,
+        severity: '',
+        message: '',
+    });
+
+    const [uploadAlarmObj, setUploadAlarmObj] = useState({
+        open: false,
+        severity: '',
+        message: '',
+    });
+
     const url = "http://localhost:8000/login/";
+    const uploadUrl = "http://localhost:8000/addEntity/";
+
+    useEffect(() => {
+        let token = localStorage.getItem('auth_token');
+        if(token === undefined) {
+            setIsLogin(false);
+            setAutoLoginLoader(false);
+        }
+        else {
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    type: 'token',
+                    token: token,
+                })
+            }).then((response) => response.json())
+            .then((res) => {
+                if(res.status === 'success') {
+                    setIsLogin(true);
+                }
+                setAutoLoginLoader(false);
+            })
+        }
+    }, [])
+    
 
     const handleClickOpen = () => {
-        setOpen(true);
+        setLoginOpen(true);
     };
 
     const handleClose = () => {
-        setOpen(false);
+        setLoginOpen(false);
+        setUploadOpen(false);
     };
 
     const changeLogin = (event) => {
@@ -41,7 +112,7 @@ function Login() {
     }
 
     const handleSubmit = () => {
-        setLoader(true);
+        setPopupLoader(true);
         fetch(url, {
             method: "POST",
             headers: {
@@ -49,28 +120,96 @@ function Login() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                login, login,
+                type: 'login',
+                login: login,
                 password: password
             })
-        }).then((response) => {
-            setLoader(false);
-            console.log(response)
+        }).then((response) => response.json())
+        .then(res => {
+            console.log(res);
+            if(res.status === 'success') {
+                localStorage.setItem('auth_token', res.token);
+                setAlarmObj({
+                    open: true, 
+                    severity: 'success',
+                    message: 'Вы успешно авторизовались'
+                });
+                setIsLogin(true);
+                setTimeout(() => {
+                    setLoginOpen(false);
+                }, 1500);
+            }
+            else {
+                setAlarmObj({
+                    open: true, 
+                    severity: 'error',
+                    message: 'Неверный логин или пароль, попробуйте ещё раз'
+                });
+            }
+            setPopupLoader(false);
         });
+    }
+
+    const handleAddBack = (file) => {
+
+        const reader = new FileReader();
+
+        reader.addEventListener(
+            "load",
+            () => {
+                fetch(uploadUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: file
+                }).then(
+                    response => response.json()
+                ).then(
+                    res => console.log(res)
+                )
+            },
+          );
+        
+        reader.readAsDataURL(file);
+    }
+
+    const handleAddImage = (file) => {
+
+    }
+
+    const handleUploadOpen = () => {
+        setUploadOpen(true);
     }
 
     return (
         <>
-            <Button variant="outlined" onClick={handleClickOpen} startIcon={<LoginIcon />}>Войти</Button>
+            {autoLoginLoader ? (
+                <CircularProgress size={20}/>
+            ): isLogin ? (
+                <Stack direction="row" spacing={2}>
+                    <Button variant="outlined" startIcon={<CloudUploadIcon />} onClick={handleUploadOpen}>Загрузить в общюю библиотеку</Button>
+                    <Button color="error" variant="outlined">
+                        Выйти
+                    </Button>
+                </Stack>
+            ) : (
+                <Button variant="outlined" onClick={handleClickOpen} startIcon={<LoginIcon />}>Войти</Button>
+            )}
+            
             <Dialog
                 fullScreen={fullScreen}
-                open={open}
+                open={loginOpen}
                 onClose={handleClose}
-                aria-labelledby="responsive-dialog-title"
             >
                 <DialogTitle>Авторизация</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
                         <Stack spacing={2}>
+                            <Collapse in={alarmObj.open}>
+                                <Alert  severity={alarmObj.severity}>{alarmObj.message}</Alert>
+                            </Collapse>
                             <TextField value={login} onChange={changeLogin} label="Логин" variant="filled" />
                             <TextField value={password} onChange={changePassword} label="Пароль" type="password" variant="filled" />
                         </Stack>
@@ -78,7 +217,32 @@ function Login() {
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus onClick={handleClose}>Отмена</Button>
-                    <LoadingButton loading={loader} onClick={handleSubmit}><span>Войти</span></LoadingButton>
+                    <LoadingButton loading={popupLoader} onClick={handleSubmit}><span>Войти</span></LoadingButton>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog
+                fullScreen={fullScreen}
+                open={uploadOpen}
+                onClose={handleClose}
+            >
+                <DialogTitle>Загрузить в общюю библиотеку</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        <Collapse in={uploadAlarmObj.open}>
+                            <Alert  severity={uploadAlarmObj.severity}>{uploadAlarmObj.message}</Alert>
+                        </Collapse>
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button component="label" loading={backButtonLoader} startIcon={<ImageIcon />}>
+                        Добавить фон
+                        <VisuallyHiddenInput inputProps={{ accept: '.png, .jpeg' }} onChange={handleAddBack} />
+                    </Button>
+                    <LoadingButton component="label" loading={imageButtonLoader} startIcon={<LocalFloristIcon />}>
+                        Добавить изображение
+                        <VisuallyHiddenInput inputProps={{ accept: '.png, .jpeg' }} onChange={handleAddImage} />
+                    </LoadingButton>
                 </DialogActions>
             </Dialog>
         </>

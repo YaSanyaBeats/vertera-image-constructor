@@ -7,13 +7,13 @@ function generateToken() {
 }
 
 function createTokenFile() {
-    fs.writeFile('token.txt', generateToken(), (err) => {
+    fs.writeFileSync('token.txt', generateToken(), (err) => {
         if(err) throw err;
         console.log("New token generated");
     });
 }
 
-async function getToken() {
+function getToken() {
     let token = fs.readFileSync('token.txt', { encoding: 'utf8', flag: 'r' })
     console.log(token);
     return token;
@@ -25,18 +25,32 @@ module.exports = function(app) {
    
     app.post('/login/', jsonParser, (request, response) => {
         setTimeout(async () => {
-            let user = request.body;
-            if(user.login == 'admin' && user.password == 'qwerty') {
-                createTokenFile();
-                response.end(JSON.stringify({
-                    'status': 'success',
-                    'token': getToken()
-                }));
+            if(request.body.type === 'login') {
+                if(request.body.login == 'admin' && request.body.password == 'qwerty') {
+                    createTokenFile();
+                    response.end(JSON.stringify({
+                        'status': 'success',
+                        'token': getToken()
+                    }));
+                }
+                else {
+                    response.end(JSON.stringify({
+                        'status': 'error',
+                    }));
+                }
             }
-            else {
-                response.end(JSON.stringify({
-                    'status': 'error',
-                }));
+            else if(request.body.type === 'token') {
+                if(request.body.token === getToken()) {
+                    response.end(JSON.stringify({
+                        'status': 'success',
+                        'token': getToken()
+                    }));
+                }
+                else {
+                    response.end(JSON.stringify({
+                        'status': 'error',
+                    }));
+                }
             }
         }, 2000)
     })
