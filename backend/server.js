@@ -2,8 +2,8 @@ const express       = require('express');
 const app           = express();
 const port          = 8000;
 
-import * as https from 'https';
-import * as fs from 'fs';
+const https = require('https');
+const fs = require('fs');
 
 const isBuild = process.argv[2] === 'build';
 
