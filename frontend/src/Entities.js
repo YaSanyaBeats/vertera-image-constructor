@@ -55,7 +55,7 @@ function Entities({tool, changeEntity}) {
             return;
         }
 
-        fetch('http://localhost:8000/getEntity/?all=true&entityTypeName=' + tool)
+        fetch(process.env.REACT_APP_API_URL + '/getEntity/?all=true&entityTypeName=' + tool)
         .then(res => res.json())
         .then(
             (result) => {
@@ -66,11 +66,11 @@ function Entities({tool, changeEntity}) {
                 });
                 setBackgrounds(result.concat(currentLocalImages));
                 if(tool === 'images') {
-                    setLinkPath('http://localhost:8000/getEntity/?all=false&entityTypeName=' + tool + '&entityCategory=3D&entityName=');
+                    setLinkPath(process.env.REACT_APP_API_URL + '/getEntity/?all=false&entityTypeName=' + tool + '&entityCategory=3D&entityName=');
                     handleCategory(0, '3D')(null, true);
                 }
                 else {
-                    setLinkPath('http://localhost:8000/getEntity/?all=false&entityTypeName=' + tool + '&entityName=');
+                    setLinkPath(process.env.REACT_APP_API_URL + '/getEntity/?all=false&entityTypeName=' + tool + '&entityName=');
                 }
                 console.log(result.concat(currentLocalImages));
             },
@@ -106,12 +106,12 @@ function Entities({tool, changeEntity}) {
         setActiveCategody(activeCategory);
         if(expanded) {
             setCategoryLoader(true);
-            fetch('http://localhost:8000/getEntity/?all=true&entityTypeName=' + tool + '&entityCategory=' + bg)
+            fetch(process.env.REACT_APP_API_URL + '/getEntity/?all=true&entityTypeName=' + tool + '&entityCategory=' + bg)
             .then(res => res.json())
             .then(
                 (result) => {
                     setInnerEntities(result);
-                    setLinkPath('http://localhost:8000/getEntity/?all=false&entityTypeName=' + tool + '&entityCategory=' + bg + '&entityName=');
+                    setLinkPath(process.env.REACT_APP_API_URL + '/getEntity/?all=false&entityTypeName=' + tool + '&entityCategory=' + bg + '&entityName=');
                     setCategoryLoader(false);
                 },
                 (error) => {

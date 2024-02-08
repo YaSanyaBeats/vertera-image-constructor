@@ -2,6 +2,8 @@ const express       = require('express');
 const app           = express();
 const port          = 8000;
 
+const isBuild = process.argv[2] === 'build';
+
 app.use(function(req, res, next){
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-control-Allow-Methods', 'GET, POST');
@@ -13,6 +15,19 @@ app.use(function(req, res, next){
 
 require('./routes')(app);
 
-app.listen(port, () => {
-    console.log(`work on ${port}`);
-})
+
+
+if (!isBuild) {
+    app.listen(port, () => {
+        console.log(`work on ${port}`);
+    })
+}
+else {
+    const options = {
+        cert: fs.readFileSync('/var/www/httpd-cert/vertera-cons.yasanyabeats.ru_2024-02-08-23-23_58.crt'),
+        key: fs.readFileSync('/var/www/httpd-cert/vertera-cons.yasanyabeats.ru_2024-02-08-23-23_58.key')
+    };
+    //express.listen(port);
+    https.createServer(options, app).listen(port);
+    console.log('Server HTTPS started');
+}

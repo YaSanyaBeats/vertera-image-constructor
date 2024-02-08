@@ -65,8 +65,8 @@ function Login() {
         message: '',
     });
 
-    const url = "http://localhost:8000/login/";
-    const uploadUrl = "http://localhost:8000/addEntity/";
+    const url = process.env.REACT_APP_API_URL + '/login/';
+    const uploadUrl = process.env.REACT_APP_API_URL + '/addEntity/';
 
     useEffect(() => {
         let token = localStorage.getItem('auth_token');
