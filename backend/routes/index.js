@@ -1,13 +1,13 @@
 //  routes/index.js
 
 const mainRoutes = require('./main');
-const bgRoutes = require('./bg');
+const getEntityRoutes = require('./getEntity');
 const loginRoutes = require('./login');
 const addEntityRoutes = require('./addEntity');
 
 module.exports = function(app) {
     mainRoutes(app);
-    bgRoutes(app);
+    getEntityRoutes(app);
     loginRoutes(app);
     addEntityRoutes(app);
 }

@@ -110,7 +110,7 @@ const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps
             type: 'text',
             align: 'left',
             fontSize: 50,
-            fontFamily: "Arial",
+            fontFamily: "Benzin-Bold",
             fontStyle: "normal",
             textDecoration: "normal",
             text: 'Vertera',

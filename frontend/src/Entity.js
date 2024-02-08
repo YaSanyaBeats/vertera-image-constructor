@@ -14,7 +14,7 @@ function Entity({src, onClick, tool}) {
                 setUrl(URL.createObjectURL(image));
                 setLoading(false);
             });
-    }, [src]);
+    }, []);
 
     return (
         <Box bgcolor={'#1E252A'} borderRadius={2}>

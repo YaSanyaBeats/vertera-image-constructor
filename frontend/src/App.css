@@ -1,3 +1,12 @@
+@font-face {
+    font-family: 'Benzin-Bold';
+    src: local('Benzin-Bold'), url(./fonts/Benzin-Bold.ttf) format('truetype');
+}
+
+.for-load {
+    font-family: 'Benzin-Bold';
+}
+
 .app {
     max-height: 100vh;
     overflow: hidden;
@@ -18,7 +27,6 @@
 
 .entity-image_cover {
     object-fit: cover;
-    padding: 5px;
 }
 
 .entity-image_contain {

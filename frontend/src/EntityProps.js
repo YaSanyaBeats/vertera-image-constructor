@@ -53,12 +53,15 @@ function EntityProps({setSelectedEntity, selectedEntityProps, setSelectedEntityP
             title: "Шрифт",
             type: 'select',
             options: {
+                "Benzin-Bold": {
+                    title: "Фирменный"
+                },
                 "Arial": {
                     title: "Без засечек"
                 },
                 "Serif": {
                     title: "С засечками"
-                }
+                },
             }
         },
         'fontStyle': {

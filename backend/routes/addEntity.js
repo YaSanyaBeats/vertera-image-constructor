@@ -10,19 +10,13 @@ module.exports = function(app) {
         let folderName = md5(new Date().getTime());
         
         if(request.files?.back) {
-            let folderPath = 'assets/backgrounds/' + folderName + '/';
-            fs.mkdir(folderPath, err => {
-                if(err) throw err;
-            });
-            request.files.back.mv(folderPath + request.files.back.name);
+            let folderPath = 'assets/backgrounds/';
+            request.files.back.mv(folderPath + md5(new Date()));
             
         }
         else if(request.files?.image) {
-            let folderPath = 'assets/images/' + folderName + '/';
-            fs.mkdir(folderPath, err => {
-                if(err) throw err;
-            });
-            request.files.image.mv(folderPath + request.files.image.name);
+            let folderPath = 'assets/images/Прочее/';
+            request.files.image.mv(folderPath + md5(new Date()));
         }
         setTimeout(async () => {
             response.end(JSON.stringify({
