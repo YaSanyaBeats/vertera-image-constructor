@@ -1,7 +1,7 @@
 import Button from '@mui/material/Button';
 import LoadingButton from '@mui/lab/LoadingButton';
 import LoginIcon from '@mui/icons-material/Login';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 
@@ -50,6 +50,8 @@ function Login() {
     const [isLogin, setIsLogin] = useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+    const uploadBackRef = useRef();
 
     const [alarmObj, setAlarmObj] = useState({
         open: false,
@@ -126,7 +128,6 @@ function Login() {
             })
         }).then((response) => response.json())
         .then(res => {
-            console.log(res);
             if(res.status === 'success') {
                 localStorage.setItem('auth_token', res.token);
                 setAlarmObj({
@@ -150,24 +151,50 @@ function Login() {
         });
     }
 
-    const handleAddBack = (file) => {
+    const handleAddEntity = (fileType, file) => {
 
         const reader = new FileReader();
+        console.log(fileType === "back")
+        fileType === "back" ? setBackButtonLoader(true) : setImageButtonLoader(true);
+        
 
         reader.addEventListener(
             "load",
-            () => {
+            async (event) => {
+                let formdata = new FormData();
+                
+                formdata.append(fileType, file, file.name);
+
                 fetch(uploadUrl, {
                     method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: file
+                    body: formdata,
+                    redirect: 'follow'
                 }).then(
                     response => response.json()
-                ).then(
-                    res => console.log(res)
+                ).then((res) => {
+                        setBackButtonLoader(false);
+                        setImageButtonLoader(false);
+                        if(res.status === 'success') {
+                            setUploadAlarmObj({
+                                open: true, 
+                                severity: 'success',
+                                message: 'Файл успешно загружен'
+                            });
+                            setTimeout(() => {
+                                setUploadOpen(false);
+                                setUploadAlarmObj({
+                                    open: false
+                                })
+                            }, 1500)
+                        }
+                        else {
+                            setUploadAlarmObj({
+                                open: true, 
+                                severity: 'error',
+                                message: 'Произошла ошибка, попробуйте ещё раз'
+                            });
+                        }
+                    }
                 )
             },
           );
@@ -175,12 +202,13 @@ function Login() {
         reader.readAsDataURL(file);
     }
 
-    const handleAddImage = (file) => {
-
-    }
-
     const handleUploadOpen = () => {
         setUploadOpen(true);
+    }
+
+    const handleLogOut = () => {
+        localStorage.removeItem('auth_token');
+        setIsLogin(false);
     }
 
     return (
@@ -190,7 +218,7 @@ function Login() {
             ): isLogin ? (
                 <Stack direction="row" spacing={2}>
                     <Button variant="outlined" startIcon={<CloudUploadIcon />} onClick={handleUploadOpen}>Загрузить в общюю библиотеку</Button>
-                    <Button color="error" variant="outlined">
+                    <Button color="error" variant="outlined" onClick={handleLogOut}>
                         Выйти
                     </Button>
                 </Stack>
@@ -235,13 +263,13 @@ function Login() {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button component="label" loading={backButtonLoader} startIcon={<ImageIcon />}>
+                    <LoadingButton component="label" loading={backButtonLoader} startIcon={<ImageIcon />}>
                         Добавить фон
-                        <VisuallyHiddenInput inputProps={{ accept: '.png, .jpeg' }} onChange={handleAddBack} />
-                    </Button>
+                        <VisuallyHiddenInput ref={uploadBackRef} inputProps={{ accept: '.png, .jpeg' }} onChange={handleAddEntity.bind(null, 'back')} />
+                    </LoadingButton>
                     <LoadingButton component="label" loading={imageButtonLoader} startIcon={<LocalFloristIcon />}>
                         Добавить изображение
-                        <VisuallyHiddenInput inputProps={{ accept: '.png, .jpeg' }} onChange={handleAddImage} />
+                        <VisuallyHiddenInput inputProps={{ accept: '.png, .jpeg' }} onChange={handleAddEntity.bind(null, 'image')} />
                     </LoadingButton>
                 </DialogActions>
             </Dialog>

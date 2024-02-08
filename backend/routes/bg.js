@@ -19,7 +19,6 @@ class FileHelpers {
     static getEntityes(path) {
         let result = [];
         path = this.base + '/' + path + '/';
-        console.log(path);
         let files = fs.readdirSync(path);
 
         for(let i = 0; i < files.length; i++) {

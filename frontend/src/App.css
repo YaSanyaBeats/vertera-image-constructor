@@ -56,3 +56,9 @@
     whiteSpace: nowrap;
     width: 1;
 }
+
+@media screen and (max-width: 768px) {
+    .logo {
+        width: 100px;
+    }
+}

@@ -15,7 +15,6 @@ function createTokenFile() {
 
 function getToken() {
     let token = fs.readFileSync('token.txt', { encoding: 'utf8', flag: 'r' })
-    console.log(token);
     return token;
 }
 
@@ -24,35 +23,33 @@ module.exports = function(app) {
     let jsonParser = bodyParser.json()
    
     app.post('/login/', jsonParser, (request, response) => {
-        setTimeout(async () => {
-            if(request.body.type === 'login') {
-                if(request.body.login == 'admin' && request.body.password == 'qwerty') {
-                    createTokenFile();
-                    response.end(JSON.stringify({
-                        'status': 'success',
-                        'token': getToken()
-                    }));
-                }
-                else {
-                    response.end(JSON.stringify({
-                        'status': 'error',
-                    }));
-                }
+        if(request.body.type === 'login') {
+            if(request.body.login == 'admin' && request.body.password == 'vertera!') {
+                createTokenFile();
+                response.end(JSON.stringify({
+                    'status': 'success',
+                    'token': getToken()
+                }));
             }
-            else if(request.body.type === 'token') {
-                if(request.body.token === getToken()) {
-                    response.end(JSON.stringify({
-                        'status': 'success',
-                        'token': getToken()
-                    }));
-                }
-                else {
-                    response.end(JSON.stringify({
-                        'status': 'error',
-                    }));
-                }
+            else {
+                response.end(JSON.stringify({
+                    'status': 'error',
+                }));
             }
-        }, 2000)
+        }
+        else if(request.body.type === 'token') {
+            if(request.body.token === getToken()) {
+                response.end(JSON.stringify({
+                    'status': 'success',
+                    'token': getToken()
+                }));
+            }
+            else {
+                response.end(JSON.stringify({
+                    'status': 'error',
+                }));
+            }
+        }
     })
 
    

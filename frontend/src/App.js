@@ -58,8 +58,8 @@ function App() {
     return (
         <ThemeProvider theme={darkTheme}>
             <CssBaseline />
-            <Grid container spacing={2} p={4} className='app'>
-                <Grid item xs={12} p={2}>
+            <Grid container spacing={2} p={{md: 4, xs: 2}} className='app'>
+                <Grid item xs={12} p={{md: 2, xs: 0}}>
                     <Stack 
                         direction="row"
                         justifyContent="space-between"
@@ -69,18 +69,18 @@ function App() {
                         <Login/>
                     </Stack>
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item md={2} xs={12} sx={{ display: { xs: 'none', md: 'block' } }}>
                     <Stack>
                         <ToolBar changeTool={setCurrentTool}/>
                         <Entities tool={currentTool} changeEntity={handleChangeEntity}/>
                     </Stack>
                 </Grid>
-                <Grid item xs={8}>
+                <Grid item md={8} xs={12}>
                     <Grid display="flex" justifyContent="center" height={'100%'}>
                         <Canvas background={background} image={image} text={text} saving={saving} saveImage={saveImage} selectedEntityProps={selectedEntityProps} setSelectedEntityProps={setSelectedEntityProps} selectedEntity={selectedEntity} buttonClicked={buttonClicked}/>
                     </Grid>
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item md={2} xs={12} sx={{ display: { xs: 'none', md: 'block' } }}>
                     <Stack
                         className='right-sidebar'
                         justifyContent='space-between'
