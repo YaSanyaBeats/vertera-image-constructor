@@ -217,7 +217,7 @@ function Login() {
                 <CircularProgress size={20}/>
             ): isLogin ? (
                 <Stack direction="row" spacing={2}>
-                    <Button variant="outlined" startIcon={<CloudUploadIcon />} onClick={handleUploadOpen}>Загрузить в общюю библиотеку</Button>
+                    <Button variant="outlined" startIcon={<CloudUploadIcon />} onClick={handleUploadOpen}>Загрузить в общую библиотеку</Button>
                     <Button color="error" variant="outlined" onClick={handleLogOut}>
                         Выйти
                     </Button>
