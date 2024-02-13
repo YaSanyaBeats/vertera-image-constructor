@@ -24,7 +24,7 @@ function EntityProp({name, value, setValue, propInfo}) {
     }, [value, isNumber])
 
     const handleChange = (event) => {
-        let currValue = event.target.value;
+        let currValue = event.target?.value;
         switch(propInfo.type) {
             case "color":
                 if(matchIsValidColor(event)) {
