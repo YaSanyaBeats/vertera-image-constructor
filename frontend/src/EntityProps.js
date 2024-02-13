@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 
 import {useState, useEffect} from 'react';
 
-function EntityProps({setSelectedEntity, selectedEntityProps, setSelectedEntityProps, setButtonClicked}) {
+function EntityProps({setSelectedEntity, selectedEntityProps, setSelectedEntityProps, setButtonClicked, setPropsPopup}) {
     const propsDictionary = {
         // 'x': {
         //     title: 'x',
@@ -136,6 +136,7 @@ function EntityProps({setSelectedEntity, selectedEntityProps, setSelectedEntityP
 
     const handleClick = (buttonType, event) => {
         setButtonClicked({type: buttonType});
+        setPropsPopup(false);
     }
 
     return (
@@ -143,7 +144,6 @@ function EntityProps({setSelectedEntity, selectedEntityProps, setSelectedEntityP
             spacing={2}
             useFlexGap 
         >
-            <span><b>Свойства объекта:</b> {selectedEntityProps?.id?.split(' ')[0]}</span>
             {getEditebleProps().map((prop, index) => (
                 <EntityProp key={index} name={prop} value={selectedEntityProps[prop]} setValue={setValue} propInfo={propsDictionary[prop]}/>
             ))}

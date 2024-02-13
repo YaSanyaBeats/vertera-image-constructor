@@ -24,7 +24,9 @@ import ImageListItem from '@mui/material/ImageListItem';
 
 import { MuiFileInput } from 'mui-file-input'
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+
+import { useSwiper } from 'swiper/react';
 
 const VisuallyHiddenInput = styled(MuiFileInput)({
     clip: 'rect(0 0 0 0)',
@@ -45,6 +47,8 @@ function Entities({tool, changeEntity}) {
     const [innerEntities, setInnerEntities] = useState([]);
     const [categoryLoader, setCategoryLoader] = useState(false);
     const [activeCategory, setActiveCategody] = useState(0);
+
+    const swiper = useRef();
 
     useEffect(() => {
         setActiveCategody(0);
@@ -122,11 +126,14 @@ function Entities({tool, changeEntity}) {
         else {
             setActiveCategody(-1);
         }
+        console.log(swiper.swiper);
+        swiper.current.swiper.update();
     }
 
     return (
-        <Stack mt={2} spacing={2} alignItems="flex-start" justifyContent="space-between" height="100%">
+        <Stack sx={{mt: { xs: 0, md: 2 } }}  spacing={2} alignItems="flex-start" justifyContent="space-between" height="100%">
             <Swiper
+                ref={swiper}
                 direction={'vertical'}
                 slidesPerView={'auto'}
                 freeMode={true}

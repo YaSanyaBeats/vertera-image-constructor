@@ -24,6 +24,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import ImageIcon from '@mui/icons-material/Image';
 import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
 
+import { IconButton } from '@mui/material';
+
 const VisuallyHiddenInput = styled(MuiFileInput)({
     clip: 'rect(0 0 0 0)',
     clipPath: 'inset(50%)',
@@ -217,7 +219,8 @@ function Login() {
                 <CircularProgress size={20}/>
             ): isLogin ? (
                 <Stack direction="row" spacing={2}>
-                    <Button variant="outlined" startIcon={<CloudUploadIcon />} onClick={handleUploadOpen}>Загрузить в общую библиотеку</Button>
+                    <Button variant="outlined" startIcon={<CloudUploadIcon />} onClick={handleUploadOpen} sx={{ display: { xs: 'none', md: 'flex' }}}>Загрузить в общую библиотеку</Button>
+                    <IconButton variant="outlined" onClick={handleUploadOpen} sx={{ display: { md: 'none', xs: 'block' }}}><CloudUploadIcon /></IconButton>
                     <Button color="error" variant="outlined" onClick={handleLogOut}>
                         Выйти
                     </Button>
@@ -263,14 +266,20 @@ function Login() {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <LoadingButton component="label" loading={backButtonLoader} startIcon={<ImageIcon />}>
-                        Добавить фон
-                        <VisuallyHiddenInput ref={uploadBackRef} inputProps={{ accept: '.png, .jpeg' }} onChange={handleAddEntity.bind(null, 'back')} />
-                    </LoadingButton>
-                    <LoadingButton component="label" loading={imageButtonLoader} startIcon={<LocalFloristIcon />}>
-                        Добавить изображение
-                        <VisuallyHiddenInput inputProps={{ accept: '.png, .jpeg' }} onChange={handleAddEntity.bind(null, 'image')} />
-                    </LoadingButton>
+                    <Stack
+                        alignItems="flex-end"
+                    >
+                        <Button color='error' onClick={handleClose}>Отмена</Button>
+                        <LoadingButton component="label" loading={backButtonLoader} startIcon={<ImageIcon />}>
+                            Добавить фон
+                            <VisuallyHiddenInput ref={uploadBackRef} inputProps={{ accept: '.png, .jpeg' }} onChange={handleAddEntity.bind(null, 'back')} />
+                        </LoadingButton>
+                        <LoadingButton component="label" loading={imageButtonLoader} startIcon={<LocalFloristIcon />}>
+                            Добавить изображение
+                            <VisuallyHiddenInput inputProps={{ accept: '.png, .jpeg' }} onChange={handleAddEntity.bind(null, 'image')} />
+                        </LoadingButton>
+                    </Stack>
+                    
                 </DialogActions>
             </Dialog>
         </>

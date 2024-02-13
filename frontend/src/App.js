@@ -14,6 +14,8 @@ import Login from './Login';
 
 import {useState} from 'react';
 
+import ToolBarMobile from './ToolBarMobile';
+
 const darkTheme = createTheme({
     palette: {
       mode: 'dark',
@@ -85,9 +87,29 @@ function App() {
                         className='right-sidebar'
                         justifyContent='space-between'
                     >
-                        <EntityProps setSelectedEntity={setSelectedEntity} selectedEntityProps={selectedEntityProps} setSelectedEntityProps={setSelectedEntityProps} setButtonClicked={setButtonClicked}/>
+                        <EntityProps 
+                            setSelectedEntity={setSelectedEntity} 
+                            selectedEntityProps={selectedEntityProps} 
+                            setSelectedEntityProps={setSelectedEntityProps} 
+                            setButtonClicked={setButtonClicked}
+                            setPropsPopup={() => {}}
+                        />
                         <Export handleExport={handleExport}/>
                     </Stack>
+                </Grid>
+                <Grid item xs={12} sx={{ display: { md: 'none', xs: 'block' } }}>
+                    <ToolBarMobile 
+                        tool={currentTool} 
+                        changeTool={setCurrentTool} 
+                        changeEntity={handleChangeEntity} 
+                        handleExport={handleExport} 
+                        selectedEntityObj={{
+                            setSelectedEntity: setSelectedEntity,
+                            selectedEntityProps: selectedEntityProps,
+                            setSelectedEntityProps: setSelectedEntityProps,
+                            setButtonClicked: setButtonClicked,
+                        }}
+                    />
                 </Grid>
             </Grid>
         </ThemeProvider>
