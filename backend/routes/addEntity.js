@@ -18,11 +18,10 @@ module.exports = function(app) {
             let folderPath = 'assets/images/Прочее/';
             request.files.image.mv(folderPath + md5(new Date()));
         }
-        setTimeout(async () => {
-            response.end(JSON.stringify({
-                'status': 'success'
-            }));
-        }, 2000)
+        
+        response.end(JSON.stringify({
+            'status': 'success'
+        }));
     })
 
 }

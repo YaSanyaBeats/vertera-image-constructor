@@ -65,8 +65,57 @@
     width: 1;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 900px) {
     .logo {
         width: 100px;
+    }
+
+    .main-canvas {
+        height: 85vh;
+        width: 100%;
+        flex: 0 0 100%;
+    }
+    
+    .main-canvas .konvajs-content {
+        height: 85vh !important;
+        width: 100%;
+        flex: 0 0 100%;
+    }
+    
+    .main-canvas .konvajs-content canvas {
+        height: 85vh !important;
+        width: 100%;
+        flex: 0 0 100%;
+    }
+
+    .fab-absolute {
+        position: fixed !important;
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .swiper-wrapper {
+        height: auto !important;
+    }
+
+    .entity-popup {
+        margin: 0 !important;
+    }
+
+    .entity-swiper {
+        max-height: calc(100vh - 100px);
+        min-height: calc(100vh - 100px);
+    }
+
+    .entity-popup-actions {
+        position: absolute;
+        right: 20px;
+        bottom: 10px;
+    }
+
+    .export-mobile-button {
+        padding: 10px !important;
+        border-radius: 50% !important;
+        background-color: #000000CC !important;
     }
 }

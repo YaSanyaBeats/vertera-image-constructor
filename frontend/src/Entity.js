@@ -13,7 +13,8 @@ function Entity({src, onClick, tool}) {
             .then((image) => {
                 setUrl(URL.createObjectURL(image));
                 setLoading(false);
-            });
+            })
+            .catch(() => console.log('some error'));
     }, []);
 
     return (

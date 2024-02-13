@@ -20,27 +20,33 @@ function EntityProp({name, value, setValue, propInfo}) {
     const [nowValue, setNowValue] = useState(setStartValue(value));
     
     useEffect(() => {
-        if(isNumber) {
-            setNowValue(Math.round(value));
-        }
-        else {
-            setNowValue(value);
-        }
+        setNowValue(value);
     }, [value, isNumber])
 
     const handleChange = (event) => {
-        if(matchIsValidColor(event)) {
-            setValue(name, event);
-            setNowValue(event);
-        }
-        else {
-            let currValue = event.target.value;
-            if(isNumber) {
-                currValue = +currValue;
-            }
-            
-            setValue(name, currValue);
-            setNowValue(currValue);
+        let currValue = event.target.value;
+        switch(propInfo.type) {
+            case "color":
+                if(matchIsValidColor(event)) {
+                    setValue(name, event);
+                    setNowValue(event);
+                }
+                break;
+            case "number":
+                if(isNumber) {
+                    currValue = +currValue;
+                }
+                setValue(name, currValue);
+                setNowValue(currValue);
+                break;
+            case "select":
+                setValue(name, currValue);
+                setNowValue(currValue);
+                break;
+            case "text":
+                setValue(name, currValue);
+                setNowValue(currValue);
+                break;
         }
     }
     
