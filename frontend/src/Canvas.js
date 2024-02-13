@@ -8,7 +8,7 @@ import CanvasBackground from './canvas/CanvasBackground.js';
 const Canvas = ({background, image, text, saving, saveImage, selectedEntityProps, setSelectedEntityProps, selectedEntity, buttonClicked}) => {
     const [selectedId, selectShape] = useState(null);
     const [entities, setEntities] = useState([]);
-    const [ratio, setRatio] = useState('16:9');
+    const [ratio, setRatio] = useState(document.documentElement.clientWidth < 900 ? '9:16' : '16:9');
 
     //Размер холста
     const [dimensions, setDimensions] = useState({
