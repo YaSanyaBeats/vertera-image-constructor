@@ -46,15 +46,28 @@ function App() {
     }
 
     const handleChangeEntity = (event) => {
-        if(currentTool === 'backgrounds') {
-            setBackground(event.target.getAttribute('data-full-src'));
-        }
-        else if(currentTool === 'images') {
-            setImage(event.target.getAttribute('data-full-src'));
-        }
-        else if(currentTool === 'text') {
+        if(currentTool === 'text') {
             setText(Date.now());
+            return;
         }
+
+        let src = event.target.getAttribute('data-full-src');
+        
+        fetch(src)
+        .then((response) => {
+            return response.blob();
+            
+        })
+        .then((image) => {
+            if(currentTool === 'backgrounds') {
+                setBackground(URL.createObjectURL(image));
+            }
+            if(currentTool === 'images') {
+                setImage(URL.createObjectURL(image));
+            }
+        })
+        .catch(() => console.log('some error'));
+
     }
 
     return (

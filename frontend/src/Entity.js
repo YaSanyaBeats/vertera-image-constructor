@@ -16,6 +16,7 @@ function Entity({src, onClick, tool}) {
         fetch(src)
             .then(response => response.blob())
             .then((image) => {
+                console.log(image);
                 setUrl(URL.createObjectURL(image));
                 setLoading(false);
             })
