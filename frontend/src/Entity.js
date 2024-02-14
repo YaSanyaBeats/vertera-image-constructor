@@ -2,6 +2,11 @@ import Box from '@mui/material/Box';
 import Skeleton from '@mui/material/Skeleton';
 import { useEffect, useState } from 'react';
 
+function removeIsPreviewFromSrc(src) {
+    let result = src.split('&isPreview=true');
+    return result.join('');
+}
+
 function Entity({src, onClick, tool}) {
     const [loading, setLoading] = useState(true);
     const [url, setUrl] = useState('');
@@ -22,7 +27,7 @@ function Entity({src, onClick, tool}) {
             {loading ? (
                 <Skeleton variant="rounded" height={100} />
             ) : (
-                <img src={url} alt="Entity Preview" onClick={onClick} className={'entity-image ' + (tool === 'images' ? 'entity-image_cover' : '')}/>
+                <img src={url} data-full-src={removeIsPreviewFromSrc(src)} alt="Entity Preview" onClick={onClick} className={'entity-image ' + (tool === 'images' ? 'entity-image_cover' : '')}/>
             )}
         </Box>
     );

@@ -1,6 +1,20 @@
 // routing main /
 const fs = require('fs');
 const path = require('path');
+const sharp = require('sharp');
+
+async function createPreview(fullPath, previewPath) {
+    await sharp(fullPath)
+    .resize(200)
+    .webp({
+        quality: 80,
+        lossless: false
+    })
+    .toFile(previewPath, (err, info) => {
+        console.log(err);
+        console.log(info);
+    })
+} 
 
 class FileHelpers {
     static base = 'assets';
@@ -52,20 +66,43 @@ class FileHelpers {
         
         return path;
     }
-    static getCategoryEntity(path, category, name) {
-        path = this.base + '/' + path + '/' + category + '/' + name;
+    static async getPreviewEntity(path, name) {
+        let fullPath = this.base + '/' + path + '/' + name;
+        let previewPath = this.base + '/resize_cache/' + path + '/' + name;
+
         
+        if(!fs.existsSync(previewPath)) {
+            await createPreview(fullPath, previewPath);
+        }
+        
+        return previewPath;
+    }
+    static getCategoryEntity(path, category, name) {
+        path =  this.base + '/' + path + '/' + category + '/' + name;
+
         return path;
+    }
+    static async getCategoryPreviewEntity(path, category, name) {
+        
+        let fullPath =  this.base + '/' + path + '/' + category + '/' + name;
+        let previewPath = this.base + '/resize_cache/' + path + '/' + category + '/' + name;
+        
+        if(!fs.existsSync(previewPath)) {
+            await createPreview(fullPath, previewPath);
+        }
+        console.log(previewPath);
+        return previewPath;
     }
 }
 
 module.exports = function (app) {
-    app.get('/getEntity/', (request, response) => {
+    app.get('/getEntity/', async (request, response) => {
         let result = null;
         let isAll = request.query?.all === 'false' ? false : true;
         let entityTypeName = request.query?.entityTypeName || 'backgrounds';
         let entityCategory = request.query?.entityCategory;
         let entityName = request.query?.entityName;
+        let isPreview = request.query?.isPreview === 'true' ? true : false;
 
         if(isAll) {
             if(entityTypeName && entityCategory) {
@@ -96,7 +133,14 @@ module.exports = function (app) {
             }
             if(entityCategory) {
                 try {
-                    let path = FileHelpers.getCategoryEntity(entityTypeName, entityCategory, entityName);
+                    let path;
+                    if(isPreview) {
+                        path = await FileHelpers.getCategoryPreviewEntity(entityTypeName, entityCategory, entityName);
+                    }
+                    else {
+                        path = FileHelpers.getCategoryEntity(entityTypeName, entityCategory, entityName);
+                    }
+
                     response.sendFile(__dirname.replace('routes', '') + path);
                     
                     return;
@@ -107,7 +151,14 @@ module.exports = function (app) {
                 }
             }
             try {
-                let path = FileHelpers.getEntity(entityTypeName, entityName);
+                let path;
+                
+                if(isPreview) {
+                    path = await FileHelpers.getPreviewEntity(entityTypeName, entityName);
+                }
+                else {
+                    path = FileHelpers.getEntity(entityTypeName, entityName);
+                }
                 response.sendFile(__dirname.replace('routes', '') + path);
                 
                 return;
