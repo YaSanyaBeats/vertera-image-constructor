@@ -77,14 +77,20 @@ class FileHelpers {
         
         return previewPath;
     }
-    static async getCategoryEntity(path, category, name) {
+    static getCategoryEntity(path, category, name) {
+        path =  this.base + '/' + path + '/' + category + '/' + name;
+
+        return path;
+    }
+    static async getCategoryPreviewEntity(path, category, name) {
+        
         let fullPath =  this.base + '/' + path + '/' + category + '/' + name;
         let previewPath = this.base + '/resize_cache/' + path + '/' + category + '/' + name;
         
         if(!fs.existsSync(previewPath)) {
             await createPreview(fullPath, previewPath);
         }
-
+        console.log(previewPath);
         return previewPath;
     }
 }
@@ -127,7 +133,14 @@ module.exports = function (app) {
             }
             if(entityCategory) {
                 try {
-                    let path = await FileHelpers.getCategoryEntity(entityTypeName, entityCategory, entityName);
+                    let path;
+                    if(isPreview) {
+                        path = await FileHelpers.getCategoryPreviewEntity(entityTypeName, entityCategory, entityName);
+                    }
+                    else {
+                        path = FileHelpers.getCategoryEntity(entityTypeName, entityCategory, entityName);
+                    }
+
                     response.sendFile(__dirname.replace('routes', '') + path);
                     
                     return;

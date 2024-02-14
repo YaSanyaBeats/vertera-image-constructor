@@ -47,10 +47,10 @@ function App() {
 
     const handleChangeEntity = (event) => {
         if(currentTool === 'backgrounds') {
-            setBackground(event.target.src);
+            setBackground(event.target.getAttribute('data-full-src'));
         }
         else if(currentTool === 'images') {
-            setImage(event.target.src);
+            setImage(event.target.getAttribute('data-full-src'));
         }
         else if(currentTool === 'text') {
             setText(Date.now());
