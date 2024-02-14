@@ -70,11 +70,11 @@ function Entities({tool, changeEntity}) {
                 });
                 setBackgrounds(result.concat(currentLocalImages));
                 if(tool === 'images') {
-                    setLinkPath(process.env.REACT_APP_API_URL + '/getEntity/?all=false&entityTypeName=' + tool + '&entityCategory=3D&entityName=');
+                    setLinkPath(process.env.REACT_APP_API_URL + '/getEntity/?all=false&entityTypeName=' + tool + '&entityCategory=3D&isPreview=true&entityName=');
                     handleCategory(0, '3D')(null, true);
                 }
                 else {
-                    setLinkPath(process.env.REACT_APP_API_URL + '/getEntity/?all=false&entityTypeName=' + tool + '&entityName=');
+                    setLinkPath(process.env.REACT_APP_API_URL + '/getEntity/?all=false&entityTypeName=' + tool  + '&isPreview=true&entityName=');
                 }
                 console.log(result.concat(currentLocalImages));
             },
@@ -115,7 +115,7 @@ function Entities({tool, changeEntity}) {
             .then(
                 (result) => {
                     setInnerEntities(result);
-                    setLinkPath(process.env.REACT_APP_API_URL + '/getEntity/?all=false&entityTypeName=' + tool + '&entityCategory=' + bg + '&entityName=');
+                    setLinkPath(process.env.REACT_APP_API_URL + '/getEntity/?all=false&entityTypeName=' + tool + '&entityCategory=' + bg + "&isPreview=true" + '&entityName=');
                     setCategoryLoader(false);
                 },
                 (error) => {
