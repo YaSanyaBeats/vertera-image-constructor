@@ -27,8 +27,8 @@ if (!isBuild) {
 }
 else {
     const options = {
-        cert: fs.readFileSync('/var/www/httpd-cert/vertera-cons.yasanyabeats.ru_2024-02-08-23-23_58.crt'),
-        key: fs.readFileSync('/var/www/httpd-cert/vertera-cons.yasanyabeats.ru_2024-02-08-23-23_58.key')
+        cert: fs.readFileSync('/var/www/httpd-cert/smm.vertera.org_2024-02-28-21-19_56.crt'),
+        key: fs.readFileSync('/var/www/httpd-cert/smm.vertera.org_2024-02-28-21-19_56.key')
     };
     //express.listen(port);
     https.createServer(options, app).listen(port);
