@@ -56,8 +56,11 @@ function App() {
             return;
         }
 
-        
-        let src = event.target.src ?? event.target.getAttribute('data-full-src');
+        let src = event.target.src;
+        if(event.target.getAttribute) {
+            src = event.target.getAttribute('data-full-src');
+        }
+
         
         fetch(src)
         .then((response) => {
