@@ -5,6 +5,7 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/scrollbar';
 
+import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Entity from './Entity';
 import Masonry from '@mui/lab/Masonry';
@@ -16,6 +17,7 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -106,6 +108,10 @@ function Entities({tool, changeEntity}) {
         }
     }
 
+    const removeEntity = () => {
+        changeEntity(null);
+    }
+
     const handleCategory = (activeCategory, bg) => (event, expanded) => {
         setActiveCategody(activeCategory);
         if(expanded) {
@@ -144,11 +150,14 @@ function Entities({tool, changeEntity}) {
             >
                 <SwiperSlide>
                     {tool === 'backgrounds' ? (
-                        <Masonry columns={2} spacing={2}>
-                            {backgrounds.map((bg, index) => (
-                                <Entity key={index} src={getImageLink(bg)} onClick={changeEntity} tool={tool}/>
-                            ))}
-                        </Masonry>
+                        <>
+                            <Masonry columns={2} spacing={2}>
+                                <Entity src={'removeBG.svg'} onClick={removeEntity} tool={'images'}/>
+                                {backgrounds.map((bg, index) => (
+                                    <Entity key={index} src={getImageLink(bg)} onClick={changeEntity} tool={tool}/>
+                                ))}
+                            </Masonry>
+                        </>
                     ) : tool === 'text' ? (
                         <Masonry columns={2} spacing={2}>
                             <Entity src={'text.svg'} onClick={changeEntity} tool={tool}/>

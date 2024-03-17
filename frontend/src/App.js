@@ -46,6 +46,11 @@ function App() {
     }
 
     const handleChangeEntity = (event) => {
+        if(event === null) {
+            setBackground(null);
+            return;
+        }
+
         if(currentTool === 'text') {
             setText(Date.now());
             return;
