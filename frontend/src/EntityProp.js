@@ -52,7 +52,7 @@ function EntityProp({name, value, setValue, propInfo}) {
     
     return (
         <Stack
-            direction="row"
+            direction={propInfo.title === "Соотношение сторон" ? 'column' : 'row'}
             justifyContent="space-between"
             alignItems="center"
             spacing={2}
