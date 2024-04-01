@@ -246,12 +246,14 @@ function Login({ isLoginPage }) {
           Войти
         </Button>
       ) : (
-        <Button
-          variant="outlined"
-          startIcon={<LoginIcon />}
-        >
-          <Link to={"/login"}>Войти</Link>
-        </Button>
+
+        <></>
+        // <Button
+        //   variant="outlined"
+        //   startIcon={<LoginIcon />}
+        // >
+        //   <Link to={"/login"}>Войти</Link>
+        // </Button>
       )}
 
       <Dialog fullScreen={fullScreen} open={loginOpen} onClose={handleClose}>
