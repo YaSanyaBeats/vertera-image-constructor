@@ -18,7 +18,7 @@ function App() {
     <ThemeProvider theme={darkTheme}>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/admin" element={<LoginPage />} />
         // потом нужно будет добавить 404 страницу
         <Route path="*" element={<HomePage />} />
       </Routes>

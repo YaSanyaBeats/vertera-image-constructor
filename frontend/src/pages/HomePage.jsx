@@ -79,7 +79,6 @@ function HomePage() {
             <Link to="/">
               <img className="logo" src="logo.svg" alt="logo" />
             </Link>
-            <Login />
           </Stack>
         </Grid>
         <Grid item md={2} xs={12} sx={{ display: { xs: "none", md: "block" } }}>
